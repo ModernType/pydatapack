@@ -1,6 +1,6 @@
 from structures.enums import *
 from structures.text import Text
-from structures.commands import mc_function, give
+from commands import mc_function, give
 from structures.general import AttributeModifier
 from structures.item import Item, Enchantment, Display
 from core import NameSpace

@@ -1,12 +1,17 @@
 from typing import Callable, List
-from .item import Item
+from .structures.item import Item
 from core import NameSpace
 
 fun_buf: List[str] = []
 
 
-def mc_function(func: Callable = None, namespace: NameSpace = None, func_name: str = None):
-    """Decorator to define python function as minecraft function"""
+def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_name: str = None):
+    """Decorator to define python function as minecraft function
+
+    Args:
+        namespace (NameSpace, optional): Namesspace which will be assigned to this function. You won't need to use add_function() method later.
+        func_name (str, optional): Name of function file. If not present original function name will be used.
+    """
 
     def inner(func):
         def wrapper(*args, **kwargs):
@@ -28,12 +33,16 @@ def mc_function(func: Callable = None, namespace: NameSpace = None, func_name: s
             wrapper.__namespace__ = None
         return wrapper
 
-    if namespace or func_name:
+    if not func:
         return inner
     return inner(func)
 
 
-def base_command(func: Callable[[], str]):
+def _base_command(func: Callable[[], str]):
+    """Decorator for default minecraft command. Basically it uses function returns to put into mc_function.
+    For internal use
+    """
+    
     def wrapper(*args, **kwargs):
         global fun_buf
         fun_buf.append(func(*args, **kwargs))
@@ -44,12 +53,12 @@ def base_command(func: Callable[[], str]):
     return wrapper
 
 
-@base_command
+@_base_command
 def give(item: Item, player: str = "@s"):
     return f"give {player} {item.give_string()}"
 
 
-@base_command
+@_base_command
 def say(text: str):
     return f"say {text}"
 
