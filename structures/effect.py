@@ -10,3 +10,4 @@ class Effect:
         self.id = id
         self.duration = duration
         self.amplifier = amplifier
+        self.hide_particles = hide_particles
