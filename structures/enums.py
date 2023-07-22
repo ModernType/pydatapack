@@ -263,6 +263,21 @@ class EntityId(MCEnum):
     zombified_piglin = "minecraft:zombified_piglin"
 
 
+class SelectorEnum(MCEnum):
+    executor = "@s"
+    near_player = "@p"
+    all_players = "@a"
+    all_entities = "@e"
+    random_player = "@r"
+
+
+class GamemodeName(MCEnum):
+    survival = "survival"
+    creative = "creative"
+    adventure = "adventure"
+    spectator = "spectator"
+
+
 class ItemId(MCEnum):
     acacia_boat = "minecraft:acacia_boat"
     acacia_button = "minecraft:acacia_button"

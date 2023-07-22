@@ -68,6 +68,26 @@ class AttributeModifier(TagClass):
         self.operation = operation
         self.amount = amount
         self.uuid = uuid if uuid is not None else UUID()
+
+
+class CoordinateType(MCEnum):
+    absolute = ""
+    relative = "~"
+    sight = "^"
+
+
+class Coord:
+    def __init__(self, coord: float = 0, coord_type: CoordinateType = CoordinateType.relative) -> None:
+        self.coord = coord
+        self.coord_type = coord_type
+    
+    def __repr__(self) -> str:
+        return self.__str__()
     
     def __str__(self) -> str:
-        return super().__str__().replace("Uuid", "UUID")
+        return f"{self.coord_type}{self.coord}"
+
+
+"""**TODO**"""
+class ScoreBoard:
+    pass
