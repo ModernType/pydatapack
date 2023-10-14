@@ -26,8 +26,7 @@ class Inventory(TagClass):
     
 
 class EntityNBT(TagClass):
-    def __init__(self,
-                 *,
+    def __init__(self, *,
                  custom_name: Text = None,
                  health: int = None,
                  can_pick_up_loot: bool = None,
@@ -77,6 +76,7 @@ SORT_LITERAL = Literal["nearest", "furtherst", "random", "arbitrary"]
 class Selector:
     def __init__(self,
                  selector: SelectorEnum | str = SelectorEnum.executor,
+                 *,
                  type: EntityId = None,
                  nbt: EntityNBT = None,
                  x: float = None,
