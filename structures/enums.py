@@ -265,7 +265,7 @@ class EntityId(MCEnum):
 
 class SelectorEnum(MCEnum):
     executor = "@s"
-    near_player = "@p"
+    nearest_player = "@p"
     all_players = "@a"
     all_entities = "@e"
     random_player = "@r"
