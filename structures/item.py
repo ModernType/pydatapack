@@ -19,7 +19,7 @@ class Enchantment(TagClass):
 class Display(TagClass):
     def __init__(self,
                  name: Text | str = None, # Name should be defined only with formating at the start
-                 lore: List[Text | str] = None
+                 lore: Text | str = None
                  ) -> None:
         self.name = name
         self.lore = lore
