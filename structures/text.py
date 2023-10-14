@@ -1,4 +1,3 @@
-
 __all__ = ["Text"]
 
 
@@ -6,7 +5,14 @@ class TextPart:
     quoted_key = True
     do_camel_case = False
 
-    def __init__(self, text: str, color: str | None = None, bold: bool = None, italic: bool = False, underlined: bool = None, strikethrough: bool = None, obfuscated: bool = None) -> None:
+    def __init__(self,
+                 text: str,
+                 color: str | None = None,
+                 bold: bool = None,
+                 italic: bool = False,
+                 underlined: bool = None,
+                 strikethrough: bool = None,
+                 obfuscated: bool = None) -> None:
         self.text = text
         self.color = color
         self.bold = bold
