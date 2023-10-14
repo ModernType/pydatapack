@@ -38,9 +38,27 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
     return inner(func)
 
 
-def _base_command(func: Callable[[], str]):
-    """Decorator for default minecraft command. Basically it uses function returns to put into mc_function.
-    For internal use
+def command_macro(func: Callable[[], str]):
+    """Decorator for to define function's return value as command. You will be able to use this function
+    inside `@mc_function` decorated functions as a standalone minecraft command. This decorator is used
+    for every builtin command in this library.
+
+    Example:
+    ```
+    @command_macro
+    def give(item: Item, player: str = "@s"):
+        return f"give {player} {item.give_string()}"
+    ```
+    And then you can use it:
+    ```
+    @mc_function
+    def foo():
+        give(Item(ItemId.diamond))
+    ```
+    which will result in file `foo.mcfunction` with content:
+    `give @s minecraft:diamond`
+
+
     """
     
     def wrapper(*args, **kwargs):
@@ -53,12 +71,12 @@ def _base_command(func: Callable[[], str]):
     return wrapper
 
 
-@_base_command
+@command_macro
 def give(item: Item, player: str = "@s"):
     return f"give {player} {item.give_string()}"
 
 
-@_base_command
+@command_macro
 def say(text: str):
     return f"say {text}"
 
