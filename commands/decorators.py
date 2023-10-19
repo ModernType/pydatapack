@@ -1,8 +1,9 @@
 from typing import List, Callable
+from core import NameSpace #! Potentialy can couse circular import
 
 fun_buf: List[str] = []
 
-def mc_function(func: Callable = None, /, *, namespace = None, func_name: str = None, log: bool = False):
+def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_name: str = None, log: bool = False):
     """Decorator to define python function as minecraft function
 
     Args:
