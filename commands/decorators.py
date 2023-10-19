@@ -40,7 +40,7 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
 
 
 def command_macro(func: Callable[[], str]):
-    """Decorator for to define function's return value as command. You will be able to use this function
+    """Decorator to define function's return string as minecraft command. You will be able to use this function
     inside `@mc_function` decorated functions as a standalone minecraft command. This decorator is used
     for every builtin command in this library.
     You should treat decorated functions as macros for generating strings with minecraft commands.
