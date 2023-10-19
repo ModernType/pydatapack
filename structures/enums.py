@@ -4,12 +4,12 @@ from enum import Enum
 class MCEnum(Enum):
     def __str__(self) -> str:
         return f"\"{str(self.value)}\""
-    
+        
     def __repr__(self) -> str:
-        return f"\"{self.__str__()}\""
+        return self.__str__()
     
     def without_quotes(self) -> str:
-        return str(self).strip('"')
+        return str(self.value)
 
 
 class AttributeOperation(MCEnum):
@@ -276,6 +276,32 @@ class GamemodeName(MCEnum):
     creative = "creative"
     adventure = "adventure"
     spectator = "spectator"
+
+
+class SetdisplayVars(MCEnum):
+    def __str__(self) -> str:
+        return self.without_quotes()
+
+    below_name = "below_name"
+    list = "list"
+    sidebar = "sidebar"
+    aqua = "sidebar.team.aqua"
+    black = "sidebar.team.black"
+    blue = "sidebar.team.blue"
+    dark_aqua = "sidebar.team.dark_aqua"
+    dark_blue = "sidebar.team.dark_blue"
+    dark_gray = "sidebar.team.dark_gray"
+    dark_green = "sidebar.team.dark_green"
+    dark_purple = "sidebar.team.dark_purple"
+    dark_red = "sidebar.team.dark_red"
+    gold = "sidebar.team.gold"
+    gray = "sidebar.team.gray"
+    green = "sidebar.team.green"
+    light_purple = "sidebar.team.light_purple"
+    red = "sidebar.team.red"
+    white = "sidebar.team.white"
+    yellow = "sidebar.team.yellow"
+
 
 
 class ItemId(MCEnum):
