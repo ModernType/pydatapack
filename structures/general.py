@@ -1,3 +1,4 @@
+from __future__ import annotations
 from .enums import *
 from typing import List
 import random
@@ -87,7 +88,22 @@ class Coord:
     def __str__(self) -> str:
         return f"{self.coord_type}{self.coord}"
 
+    @staticmethod
+    def make_from(cls, inp: Coord | float | str) -> Coord:
+        if isinstance(inp, Coord):
+            return inp
+        elif isinstance(inp, float):
+            return cls(inp)
+        elif isinstance(inp, str):
+            match inp[0]:
+                case "~":
+                    cls(float(inp[1:]), CoordinateType.relative)
+                case "^":
+                    cls(float(inp[1:]), CoordinateType.sight)
+                case _:
+                    cls(float(inp), CoordinateType.absolute)
+        else:
+            raise TypeError("You should pass Coord, float or str type")
 
-"""**TODO**"""
-class ScoreBoard:
-    pass
+
+
