@@ -1,4 +1,4 @@
-from typing import List, Callable
+from typing import List, Callable, Iterable
 from core import NameSpace #! Potentialy can couse circular import
 
 fun_buf: List[str] = []
@@ -71,3 +71,8 @@ def command_macro(func: Callable[[], str]):
     wrapper.__doc__ = func.__doc__
     wrapper.__annotations__ = func.__annotations__
     return wrapper
+
+
+def _cancel_last():
+    global fun_buf
+    fun_buf.pop()
