@@ -88,7 +88,7 @@ class Coord:
     def __str__(self) -> str:
         return f"{self.coord_type}{self.coord}"
 
-    @staticmethod
+    @classmethod
     def make_from(cls, inp: Coord | float | str) -> Coord:
         if isinstance(inp, Coord):
             return inp
