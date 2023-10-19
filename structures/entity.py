@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import Tuple, Literal
 from .enums import *
 from .general import TagClass, Coord
 from .item import Item
@@ -38,16 +38,17 @@ class EntityNBT(TagClass):
                  no_gravity: bool = None,
                  persistent: bool = None,
                  silent: bool = None,
-                 tags: List[str] = None,
+                 tags: Tuple[str] = None,
                  team: str = None,
-                 motion: List[float, float, float] = None,
-                 rotation: List[float, float] = None,
-                 hand_items: List[Item, Item] = None,
-                 armor_items: List[Item, Item, Item, Item] = None,
-                 hand_drop_chances: List[float, float] = None,
-                 armor_drop_chances: List[float, float, float, float] = None,
-                 active_effects: List[Effect],
-                 attributes: List[AttributeModifier]
+                 motion: Tuple[float, float, float] | None = None,
+                 rotation: Tuple[float, float] | None = None,
+                 hand_items: Tuple[Item, Item] | None = None,
+                 armor_items: Tuple[Item, Item, Item, Item] | None = None,
+                 hand_drop_chances: Tuple[float, float] | None = None,
+                 armor_drop_chances: Tuple[float, float, float, float] | None = None,
+                 active_effects: Tuple[Effect] | None = None,
+                 attributes: Tuple[AttributeModifier] | None = None,
+                 **kwargs
                  ) -> None:
         self.custom_name = custom_name
         self.health = health
@@ -79,6 +80,7 @@ class Selector:
                  *,
                  type: EntityId = None,
                  nbt: EntityNBT = None,
+                 score: list[str] = None, # TODO: add here list of scores or something like that
                  x: float = None,
                  y: float = None,
                  z: float = None,
@@ -89,17 +91,18 @@ class Selector:
                  x_rotation: float = None,
                  y_rotation: float = None,
                  tag: str = None,
-                 team: str = None,
+                 team: str = None, # TODO: add team type when it will be implemented
                  name: str = None,
                  predicate: str = None, # TODO: Maybe there will be some class in future
                  level: int = None,
-                 gamemode: GamemodeName = None,
+                 gamemode: GamemodeName | str = None,
                  limit: int = None,
                  sort: SORT_LITERAL = None
                  ) -> None:
         self.selector = selector
         self.type = type
         self.nbt = nbt
+        self.score = score
         self.x = x
         self.y = y
         self.z = z
@@ -117,12 +120,25 @@ class Selector:
         self.gamemode = gamemode
         self.limit = limit
         self.sort = sort
+    
+    def __str__(self):
+        out = []
+        for k, v in self.__dict__.items():
+            if v is not None:
+                out.append(f"{k}={v}")
+        out.pop(0)
+        if not out:
+            return f"{self.selector}"
+        return f"{self.selector}[{", ".join(out)}]"
+
+    def __repr__(self):
+        return self.__str__()
 
 
-class Entity:
+class Entity[T: Coord | float | str]:
     def __init__(self,
-                 selector: Selector | EntityId | str = Selector.executor,
-                 coordinates: List[Coord, Coord, Coord] = None,
+                 selector: Selector | EntityId | str = SelectorEnum.executor,
+                 coordinates: Tuple[T, T, T] = None,
                  nbt: EntityNBT = EntityNBT()
                  ) -> None:
         self.selector = selector
