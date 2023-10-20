@@ -1,6 +1,8 @@
 from typing import List, Callable, Iterable
 from core import NameSpace #! Potentialy can couse circular import
 
+__all__ = ["mc_function", "command_macro"]
+
 fun_buf: List[str] = []
 
 def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_name: str = None, log: bool = False):
