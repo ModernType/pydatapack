@@ -1,5 +1,6 @@
 from typing import List
 from structures.item import Item
+from structures.entity import Selector
 from .decorators import command_macro, mc_function
 
 #! Simple commands implementations
@@ -13,7 +14,11 @@ def give(item: Item, player: str = "@s"):
 def say(text: str):
     return f"say {text}"
 
+@command_macro
+def clear(selector: Selector, item: Item, max_count: int = 1):
+    return f"clear {selector} {item.give_string()[:-2]} {max_count}"
+
 #! Importing complex commands from their modules
 
-from scoreboard import scoreboard
+from .scoreboard import scoreboard
 
