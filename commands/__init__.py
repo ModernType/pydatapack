@@ -15,6 +15,6 @@ def say(text: str):
 
 #! Importing complex commands from their modules
 
-from scoreboard import *
-from execute import *
+from .scoreboard import *
+from .execute import *
 
