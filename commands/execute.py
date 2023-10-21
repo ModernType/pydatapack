@@ -26,7 +26,9 @@ class execute_if:
         self.ex._append(f"{self.prefix} block {coords} {block} ")
         return self.ex
 
-    # def blocks(self)
+    def blocks(self, start: Coords, end: Coords, destination: Coords, mode: Literal["all", "masked"] = "masked") -> execute:
+        self.ex._append(f"{self.prefix} blocks {" ".join(map(str, start))} {" ".join(map(str, end))} {" ".join(map(str, destination))} {mode}")
+        return self.ex
 
     def data(self): ...
 
@@ -77,6 +79,33 @@ class execute_positioned:
         self.ex._append(f"positioned over {over}")
         return self.ex
 
+
+class execute_store:
+    type save_type = Literal["byte", "short", "int", "long", "float", "double"]
+    
+    def __init__(self, ex: execute, res_or_succes: str):
+        self.ex = ex
+        self.arg = res_or_succes
+    
+    def block(self, target_pos: Coords, path: str, type_: save_type, scale: float = 1) -> execute:
+        self.ex._append(f"store {self.arg} block {target_pos} {path} {type_} {scale}")
+        return self.ex
+    
+    def bossbar(self, id_: str, target: Literal["max", "value"] = "value") -> execute: #TODO: Add bossbar object here
+        self.ex._append(f"store {self.arg} bossbar {id_} {target}")
+        return self.ex
+
+    def entity(self, selector: Selector, path: str, type_: save_type, scale: float = 1) -> execute:
+        self.ex._append(f"store {self.arg} entity {selector} {path} {type_} {scale}")
+        return self.ex
+    
+    def score(self, targets: Selector, objective: ScoreBoard | str) -> execute:
+        self.ex._append(f"store {self.arg} score {targets} {objective}")
+        return self.ex
+    
+    def storage(self, storage: str, path: str, type_: save_type, scale: float = 1) -> execute:
+        self.ex._append(f"store {self.arg} storage {storage} {path} {type_} {scale}")
+        return self.ex
 
 class execute:
     def __init__(self) -> None:
@@ -145,7 +174,9 @@ class execute:
     
     def unless(self) -> execute_if:
         return execute_if(self, True)
-
+    
+    def store(self, arg: Literal["result", "success"]) -> execute_store:
+        return execute_store(self, arg)
 
     @command_macro
     def run(self, command):
