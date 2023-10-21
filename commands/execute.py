@@ -8,6 +8,24 @@ from structures.enums import EntityId
 
 __all__ = ["execute"]
 
+
+class execute_if_data:
+    def __init__(self, ex: execute, prefix: str):
+        self.ex = ex
+        self.prefix = prefix
+
+    def block(self, pos: Coords, path: str) -> execute:
+        self.ex._append(f"{self.prefix} data block {" ".join(map(str, pos))} {path}")
+        return self.ex
+
+    def entity(self, target: Selector, path: str) -> execute:
+        self.ex._append(f"{self.prefix} data block {target} {path}")
+        return self.ex
+
+    def storage(self, source: str, path: str) -> execute:
+        self.ex._append(f"{self.prefix} data block {source} {path}")
+        return self.ex
+
 class execute_if:
     def __init__(self, ex: execute, unless: bool = False):
         self.ex = ex
@@ -16,21 +34,22 @@ class execute_if:
         else:
             self.prefix = "if"
 
-    def biome(self, coords: Coords, biome: str) -> execute: #TODO: biome enum
-        coords = " ".join(map(str, coords))
-        self.ex._append(f"{self.prefix} biome {coords} {biome} ")
+    def biome(self, pos: Coords, biome: str) -> execute: #TODO: biome enum
+        pos = " ".join(map(str, pos))
+        self.ex._append(f"{self.prefix} biome {pos} {biome} ")
         return self.ex
     
-    def block(self, coords: Coords, block: str) -> execute: #TODO: blocks enum
-        coords = " ".join(map(str, coords))
-        self.ex._append(f"{self.prefix} block {coords} {block} ")
+    def block(self, pos: Coords, block: str) -> execute: #TODO: blocks enum
+        pos = " ".join(map(str, pos))
+        self.ex._append(f"{self.prefix} block {pos} {block} ")
         return self.ex
 
     def blocks(self, start: Coords, end: Coords, destination: Coords, mode: Literal["all", "masked"] = "masked") -> execute:
         self.ex._append(f"{self.prefix} blocks {" ".join(map(str, start))} {" ".join(map(str, end))} {" ".join(map(str, destination))} {mode}")
         return self.ex
 
-    def data(self): ...
+    def data(self) -> execute_if_data:
+        return execute_if_data(self.ex, self.prefix)
 
     dimensions = Literal["minecraft:overworld", "minecraft:the_end", "minecraft:the_nether"]
     def dimension(self, dimension: dimensions) -> execute:
@@ -41,9 +60,9 @@ class execute_if:
         self.ex._append(f"{self.prefix} entity {selector} ")
         return self.ex
     
-    def loaded(self, coords: Coords) -> execute:
-        coords = " ".join(map(str, coords))
-        self.ex._append(f"{self.prefix} loaded {coords} ")
+    def loaded(self, pos: Coords) -> execute:
+        pos = " ".join(map(str, pos))
+        self.ex._append(f"{self.prefix} loaded {pos} ")
         return self.ex
     
     def predicate(self, predicate: str) -> execute: #TODO: There might be predicate object in the future
