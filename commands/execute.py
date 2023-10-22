@@ -194,7 +194,12 @@ class execute:
     def unless(self) -> execute_if:
         return execute_if(self, True)
     
-    def store(self, arg: Literal["result", "success"]) -> execute_store:
+    # @overload
+    # def store(self, arg: Literal["result", "success"]) -> execute_store: ...
+    # @overload
+    # def store(self, arg: Literal["result", "success"], property): ...
+    def store(self, arg: Literal["result", "success"], property = None):
+        """Execute subcommand `store`."""
         return execute_store(self, arg)
 
     @command_macro
