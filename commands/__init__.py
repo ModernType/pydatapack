@@ -22,4 +22,5 @@ def clear(selector: Selector, item: Item, max_count: int = 1):
 
 from .scoreboard import *
 from .execute import *
+from .bossbar import *
 
