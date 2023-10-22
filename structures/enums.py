@@ -270,6 +270,9 @@ class SelectorEnum(MCEnum):
     all_entities = "@e"
     random_player = "@r"
 
+    def __str__(self) -> str:
+        return self.value
+
 
 class GamemodeName(MCEnum):
     survival = "survival"

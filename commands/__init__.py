@@ -1,7 +1,7 @@
 from typing import List
 from structures.item import Item
 from structures.entity import Selector
-from .decorators import command_macro, mc_function
+from .decorators import *
 
 #! Simple commands implementations
 
@@ -20,5 +20,6 @@ def clear(selector: Selector, item: Item, max_count: int = 1):
 
 #! Importing complex commands from their modules
 
-from .scoreboard import scoreboard
+from .scoreboard import *
+from .execute import *
 

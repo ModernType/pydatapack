@@ -1,6 +1,6 @@
 from __future__ import annotations
 from .enums import *
-from typing import List
+from typing import List, Tuple
 import random
 
 def to_camel_case(s: str):
@@ -106,4 +106,4 @@ class Coord:
             raise TypeError("You should pass Coord, float or str type")
 
 
-
+type Coords = Tuple[Coord, Coord, Coord]
