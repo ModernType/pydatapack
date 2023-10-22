@@ -15,5 +15,6 @@ def say(text: str):
 
 #! Importing complex commands from their modules
 
-from scoreboard import scoreboard
+from .scoreboard import *
+from .bossbar import *
 
