@@ -19,19 +19,19 @@ class AttributeOperation(MCEnum):
 
 
 class AttributeName(MCEnum):
-    armor = "generic.armor"
-    armor_toughness = "generic.armor_toughness"
-    attack_damage = "generic.attack_damage"
-    attack_speed = "generic.attack_speed"
-    movement_speed = "generic.movement_speed"
-    knockback_resistance = "generic.knockback_resistance"
-    max_health = "generic.max_health"
-    attack_knockback = "generic.attack_knockback"
-    flying_speed = "generic.flying_speed"
-    follow_range = "generic.follow_range"
-    luck = "generic.luck"
-    jump_strength = "horse.jump_strength"
-    spawn_reinforcements = "zombie.spawn_reinforcements"
+    armor = "minecraft:generic.armor"
+    armor_toughness = "minecraft:generic.armor_toughness"
+    attack_damage = "minecraft:generic.attack_damage"
+    attack_speed = "minecraft:generic.attack_speed"
+    movement_speed = "minecraft:generic.movement_speed"
+    knockback_resistance = "minecraft:generic.knockback_resistance"
+    max_health = "minecraft:generic.max_health"
+    attack_knockback = "minecraft:generic.attack_knockback"
+    flying_speed = "minecraft:generic.flying_speed"
+    follow_range = "minecraft:generic.follow_range"
+    luck = "minecraft:generic.luck"
+    jump_strength = "minecraft:horse.jump_strength"
+    spawn_reinforcements = "minecraft:zombie.spawn_reinforcements"
 
 
 class Slot(MCEnum):
