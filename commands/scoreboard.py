@@ -24,6 +24,30 @@ class ScoreBoard:
     
     def setdisplay(self, display: SetdisplayVars):
         scoreboard.objectives.setdisplay(display, self)
+    
+    @command_macro
+    def add(self, selector: Selector, score: int):
+        return _ScoreboardPlayers.add(selector, self, score)
+    
+    @command_macro
+    def enable(self, targets: Selector):
+        return _ScoreboardPlayers.PREFIX + f"enabel {targets} {self}"
+    
+    @command_macro
+    def get(self, selector: Selector | str):
+        return _ScoreboardPlayers.PREFIX + f"get {selector} {self}"
+    
+    @command_macro
+    def remove(self, selector: Selector | str, score: int):
+        return _ScoreboardPlayers.PREFIX + f"remove {selector} {self} {score}"
+    
+    @command_macro
+    def reset(self, selector: Selector | str):
+        return _ScoreboardPlayers.PREFIX + f"reset {selector} {self}"
+    
+    @command_macro
+    def set(self, selector: Selector | str, score: int):
+        return _ScoreboardPlayers.PREFIX + f"set {selector} {self} {score}"
 
 
 class _ScoreboardObjectives:
@@ -72,10 +96,10 @@ class _ScoreboardPlayers:
     def add(selector: Selector | str, objective: ScoreBoard | str, score: int):
         return _ScoreboardPlayers.PREFIX + f"add {selector} {objective} {score}"
     
-    # @staticmethod
-    # @command_macro
-    # def enable():
-    #     return _ScoreboardPlayers.PREFIX
+    @staticmethod
+    @command_macro
+    def enable(targets: Selector, objective: ScoreBoard | str):
+        return _ScoreboardPlayers.PREFIX + f"enabel {targets} {objective}"
     
     @staticmethod
     @command_macro
