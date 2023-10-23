@@ -15,15 +15,15 @@ class execute_if_data:
         self.prefix = prefix
 
     def block(self, pos: Coords, path: str) -> execute:
-        self.ex._append(f"{self.prefix} data block {" ".join(map(str, pos))} {path}")
+        self.ex._append(f"{self.prefix} data block {" ".join(map(str, pos))} {path} ")
         return self.ex
 
     def entity(self, target: Selector, path: str) -> execute:
-        self.ex._append(f"{self.prefix} data block {target} {path}")
+        self.ex._append(f"{self.prefix} data block {target} {path} ")
         return self.ex
 
     def storage(self, source: str, path: str) -> execute:
-        self.ex._append(f"{self.prefix} data block {source} {path}")
+        self.ex._append(f"{self.prefix} data block {source} {path} ")
         return self.ex
 
 class execute_if:
@@ -95,7 +95,7 @@ class execute_positioned:
     
     over = Literal["motion_blocking", "motion_blocking_no_leaves", "ocean_floor", "world_surface"]
     def over(self, over: over) -> execute:
-        self.ex._append(f"positioned over {over}")
+        self.ex._append(f"positioned over {over} ")
         return self.ex
 
 
@@ -107,23 +107,23 @@ class execute_store:
         self.arg = res_or_succes
     
     def block(self, target_pos: Coords, path: str, type_: save_type, scale: float = 1) -> execute:
-        self.ex._append(f"store {self.arg} block {target_pos} {path} {type_} {scale}")
+        self.ex._append(f"store {self.arg} block {target_pos} {path} {type_} {scale} ")
         return self.ex
     
     def bossbar(self, id_: str, target: Literal["max", "value"] = "value") -> execute: #TODO: Add bossbar object here
-        self.ex._append(f"store {self.arg} bossbar {id_} {target}")
+        self.ex._append(f"store {self.arg} bossbar {id_} {target} ")
         return self.ex
 
     def entity(self, selector: Selector, path: str, type_: save_type, scale: float = 1) -> execute:
-        self.ex._append(f"store {self.arg} entity {selector} {path} {type_} {scale}")
+        self.ex._append(f"store {self.arg} entity {selector} {path} {type_} {scale} ")
         return self.ex
     
     def score(self, targets: Selector, objective: ScoreBoard | str) -> execute:
-        self.ex._append(f"store {self.arg} score {targets} {objective}")
+        self.ex._append(f"store {self.arg} score {targets} {objective} ")
         return self.ex
     
     def storage(self, storage: str, path: str, type_: save_type, scale: float = 1) -> execute:
-        self.ex._append(f"store {self.arg} storage {storage} {path} {type_} {scale}")
+        self.ex._append(f"store {self.arg} storage {storage} {path} {type_} {scale} ")
         return self.ex
 
 class execute:
