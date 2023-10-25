@@ -4,7 +4,7 @@ from typing import Literal
 from structures.entity import Selector
 from structures.enums import AttributeName
 
-__all__ = ("attribute")
+__all__ = ["attribute"]
 
 
 class attribute_modifier:
