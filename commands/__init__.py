@@ -26,4 +26,5 @@ def kill(target: Selector):
 from .scoreboard import *
 from .execute import *
 from .bossbar import *
+from .xp import *
 
