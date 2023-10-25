@@ -29,6 +29,7 @@ class Item(TagClass):
     def __init__(self,
                  id: ItemId | str,
                  unbreakable: bool = False,
+                 tags: List[str] = None,
                  attribute_modifiers: List[AttributeModifier] = None,
                  custom_model_data: int | None = None,
                  display: dict = None,
@@ -43,6 +44,7 @@ class Item(TagClass):
                  ) -> None:
         self.id = id
         self.unbreakable = unbreakable
+        self.tags = tags
         self.attribute_modifiers = attribute_modifiers
         self.can_destroy = can_destroy
         self.can_place_on = can_place_on
@@ -58,6 +60,8 @@ class Item(TagClass):
     def give_string(self): # variant special for 'give' command
         base = self.id.without_quotes() + "{" if isinstance(self.id, ItemId) else self.id + "{"
         additions = []
+        if self.tags:
+            additions.append(f"Tags:{self.tags}")
         if self.unbreakable:
             additions.append(f"Unbreakable:{int(self.unbreakable)}b")
         if self.attribute_modifiers is not None:
