@@ -9,7 +9,6 @@ from .decorators import *
 def give(item: Item, player: str = "@s"):
     return f"give {player} {item.give_string()}"
 
-
 @command_macro
 def say(text: str):
     return f"say {text}"
@@ -17,6 +16,10 @@ def say(text: str):
 @command_macro
 def clear(selector: Selector, item: Item, max_count: int = 1):
     return f"clear {selector} {item.give_string()[:-2]} {max_count}"
+
+@command_macro
+def kill(target: Selector):
+    return f"kill {target}"
 
 #! Importing complex commands from their modules
 
