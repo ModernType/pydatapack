@@ -29,4 +29,5 @@ from .bossbar import *
 from .xp import *
 from .attribute import *
 from .clone import *
+from .damage import *
 
