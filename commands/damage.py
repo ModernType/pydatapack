@@ -61,16 +61,16 @@ class damage:
     
     @staticmethod
     @command_macro
-    def at(target: Selector, amount: int, damage_type: str, location: Coords):
+    def at(target: Selector, amount: int, damage_type: damage_types, location: Coords):
         return f"damage {target} {amount} {damage_type} at {" ".join(map(str, location))}"
     
-    @overload
-    def by(target: Selector, amount: int, damage_type: str, by: Selector): ...
-    @overload
-    def by(target: Selector, amount: int, damage_type: str, by: Selector, from_: Selector): ...
+    # @overload
+    # def by(target: Selector, amount: int, damage_type: str, by: Selector): ...
+    # @overload
+    # def by(target: Selector, amount: int, damage_type: str, by: Selector, from_: Selector): ...
     @staticmethod
     @command_macro
-    def by(target: Selector, amount: int, damage_type: str, by: Selector, from_: Selector = None):
+    def by(target: Selector, amount: int, damage_type: damage_types, by: Selector, from_: Selector = None):
         if from_ is None:
             return f"damage {target} {amount} {damage_type} by {by}"
         return f"damage {target} {amount} {damage_type} by {by} from {from_}"
