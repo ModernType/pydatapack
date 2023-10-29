@@ -34,13 +34,13 @@ class clone:
 
     mode = Literal["force", "move", "normal"]
     @command_macro
-    def replace(self, mode: mode):
+    def replace(self, mode: mode = "normal"):
         return f"{self._gen_begining()} replace {mode}"
     
     @command_macro
-    def masked(self, mode: mode):
+    def masked(self, mode: mode = "normal"):
         return f"{self._gen_begining()} masked {mode}"
     
     @command_macro
-    def filtered(self, filter: str, mode: mode):
+    def filtered(self, filter: str, mode: mode = "normal"): #TODO: filter will be BlockId
         return f"{self._gen_begining()} filtered {filter} {mode}"
