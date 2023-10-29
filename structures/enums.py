@@ -1321,7 +1321,6 @@ class ItemId(MCEnum):
     sheep_spawn_egg = "minecraft:sheep_spawn_egg"
     shelter_pottery_sherd = "minecraft:shelter_pottery_sherd"
     shield = "minecraft:shield"
-    shield_blocking = "minecraft:shield_blocking"
     shroomlight = "minecraft:shroomlight"
     shulker_box = "minecraft:shulker_box"
     shulker_shell = "minecraft:shulker_shell"
