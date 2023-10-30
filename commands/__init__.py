@@ -1,6 +1,7 @@
 from typing import List, Literal
 from structures.item import Item
 from structures.entity import Selector
+from structures.enums import GamemodeName
 from .decorators import *
 
 #! Simple commands implementations
@@ -25,6 +26,11 @@ def kill(target: Selector):
 def difficulty(difficulty: Literal["peaceful", "easy", "normal", "hard"]):
     return f"difficulty {difficulty}"
 
+@command_macro
+def gamemode(mode: GamemodeName | str, target: Selector = None):
+    if target is None:
+        target = Selector()
+    return f"gamemode {mode} {target}"
 
 #! Importing complex commands from their modules
 
