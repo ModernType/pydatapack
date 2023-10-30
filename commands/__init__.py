@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Literal
 from structures.item import Item
 from structures.entity import Selector
 from .decorators import *
@@ -20,6 +20,11 @@ def clear(selector: Selector, item: Item, max_count: int = 1):
 @command_macro
 def kill(target: Selector):
     return f"kill {target}"
+
+@command_macro
+def difficulty(difficulty: Literal["peaceful", "easy", "normal", "hard"]):
+    return f"difficulty {difficulty}"
+
 
 #! Importing complex commands from their modules
 
