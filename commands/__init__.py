@@ -41,4 +41,4 @@ from .xp import *
 from .attribute import *
 from .clone import *
 from .damage import *
-
+from .effect import *
