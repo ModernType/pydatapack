@@ -104,7 +104,7 @@ class HideFlags(MCEnum):
 
 
 class EffectId(MCEnum):
-    spped = "minecraft:speed"
+    speed = "minecraft:speed"
     slowness = "minecraft:slowness"
     haste = "minecraft:haste"
     mining_fatigue = "minecraft:mining_fatigue"
