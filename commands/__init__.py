@@ -1,7 +1,7 @@
 from typing import List, Literal
 from structures.item import Item
 from structures.entity import Selector
-from structures.enums import GamemodeName
+from structures.enums import GamemodeName, EnchantmentId
 from .decorators import *
 
 #! Simple commands implementations
@@ -31,6 +31,13 @@ def gamemode(mode: GamemodeName | str, target: Selector = None):
     if target is None:
         target = Selector()
     return f"gamemode {mode} {target}"
+
+@command_macro
+def enchant(targets: Selector, enchantment: EnchantmentId, level: int | None = None):
+    out = f"enchant {targets} {enchantment}"
+    if level is not None:
+        out += f" {level}"
+    return out
 
 #! Importing complex commands from their modules
 
