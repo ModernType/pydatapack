@@ -1,7 +1,8 @@
 from typing import List, Literal
 from structures.item import Item
 from structures.entity import Selector
-from structures.enums import GamemodeName, EnchantmentId
+from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes
+from structures.general import Coords
 from .decorators import *
 
 #! Simple commands implementations
@@ -37,6 +38,13 @@ def enchant(targets: Selector, enchantment: EnchantmentId, level: int | None = N
     out = f"enchant {targets} {enchantment}"
     if level is not None:
         out += f" {level}"
+    return out
+
+@command_macro
+def fillbiome(from_: Coords, to: Coords, biome: minecraft_biomes | str, replace: minecraft_biomes | str | None = None):
+    out = f"fillbiome {" ".join(map(str, from_))} {" ".join(map(str, to))} {biome}"
+    if replace is not None:
+        out += f" replace {replace}"
     return out
 
 #! Importing complex commands from their modules
