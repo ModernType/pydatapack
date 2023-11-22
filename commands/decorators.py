@@ -1,7 +1,7 @@
 from typing import List, Callable, Iterable
 from core import NameSpace #! Potentialy can couse circular import
 
-__all__ = ["mc_function", "command_macro"]
+__all__ = ["mc_function", "command_macro", "static_command_macro"]
 
 fun_buf: List[str] = []
 
