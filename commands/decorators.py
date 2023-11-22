@@ -75,6 +75,38 @@ def command_macro(func: Callable[[], str]):
     return wrapper
 
 
+def static_command_macro(func: Callable[[], str]):
+    """This decorator combines effects of `@staticmethod` and `@command_macro` decorators functions.
+
+    ## Example
+    Code block below:
+    ```
+    class forceload:
+        @staticmethod
+        @command_macro
+        def add(from_: Coords, to: Coords | None = None): ...
+    ```
+    can be replaced with one decorator:
+    ```
+    class forceload:
+        @static_command_macro
+        def add(from_: Coords, to: Coords | None = None): ...
+    ```
+    """
+
+    @staticmethod
+    def wrapper(*args, **kwargs):
+        global fun_buf
+        command = func(*args, **kwargs)
+        fun_buf.append(command)
+        return command
+
+    wrapper.__name__ = func.__name__
+    wrapper.__doc__ = func.__doc__
+    wrapper.__annotations__ = func.__annotations__
+    return wrapper
+
+
 def _cancel_last():
     global fun_buf
     fun_buf.pop()
