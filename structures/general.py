@@ -1,12 +1,27 @@
 from __future__ import annotations
 from .enums import *
-from typing import List, Tuple
+from typing import List, Tuple, Any
 import random
 
 def to_camel_case(s: str):
     res = s.split("_")
     res = list(map(lambda x: x.title(), res))
     return "".join(res)
+
+def prettify(v: Any):
+    if isinstance(v, str):
+        return f"{v}"
+    elif isinstance(v, bool):
+        return f'{int(v)}b'
+    elif isinstance(v, list):
+        return f"[{", ".join(map(prettify, v))}]"
+    elif isinstance(v, dict):
+        buf = []
+        for k, v in v.items():
+            buf.append(f"{k}:{prettify(v)}")
+        return "{" + ", ".join(buf) + "}"
+    else:
+        return str(v)
 
 class TagClass:
     """Class to be inherited from to automaticaly implement __str__ method of class in a way necessary for commands to proceed correctly"""
@@ -23,12 +38,8 @@ class TagClass:
 
             if v is None:
                 continue
-            elif isinstance(v, str):
-                additions.append(f'{key}:"{v}"')
-            elif isinstance(v, bool):
-                additions.append(f'{key}:{int(v)}b')
             else:
-                additions.append(f'{key}:{v}')
+                additions.append(f"{key}:{prettify(v)}")
         
         res = ",".join(additions)
 
