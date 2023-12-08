@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .enums import MCEnum
 from .enums import *
 from typing import List, Tuple, Any
 import random
