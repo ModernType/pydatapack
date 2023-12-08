@@ -1,4 +1,4 @@
-from .decorators import command
+from .decorators import command, command_static
 from structures.entity import Selector
 from structures.enums import EffectId
 from typing import Literal
@@ -7,8 +7,7 @@ __all__ = ["effect"]
 
 
 class effect:
-    @staticmethod
-    @command
+    @command_static
     def clear(targets: Selector | None = None, effect: EffectId | None = None):
         out = "effect clear"
         if targets is not None:
@@ -17,8 +16,7 @@ class effect:
             out += f" {str(effect).strip('"')}"
         return out
     
-    @staticmethod
-    @command
+    @command_static
     def give(targets: Selector, effect: EffectId, seconds: int | Literal["infinite"] | None = None, amplifier: int | None = None, hide_particles: bool | None = None):
         out = f"effect give {targets} {str(effect).strip('"')}"
         if seconds is not None:

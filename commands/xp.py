@@ -1,23 +1,20 @@
 from structures.entity import Selector
-from .decorators import command
+from .decorators import command, command_static
 from typing import Literal
 
 __all__ = ("xp", "experience")
 
 
 class xp:
-    @staticmethod
-    @command
+    @command_static
     def add(target: Selector, amount: int, type_: Literal["levels", "points"]):
         return f"xp add {target} {amount} {type_}"
     
-    @staticmethod
-    @command
+    @command_static
     def set(target: Selector, amount: int, type_: Literal["levels", "points"]):
         return f"xp set {target} {amount} {type_}"
     
-    @staticmethod
-    @command
+    @command_static
     def query(target: Selector, type_: Literal["levels", "points"]):
         return f"xp query {target} {type_}"
 

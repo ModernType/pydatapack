@@ -1,4 +1,4 @@
-from .decorators import command
+from .decorators import command, command_static
 from structures.text import Text
 from typing import Literal
 from structures.entity import Selector
@@ -134,18 +134,15 @@ class bossbar:
         do_command()
         return BossBar(id_, name)
     
-    @staticmethod
-    @command
+    @command_static
     def get(id_: BossBar | str, option: Literal["max", "players", "value", "visible"]):
         return f"bossbar get {id_} {option}"
     
-    @staticmethod
-    @command
+    @command_static
     def list():
         return f"bossbar list"
     
-    @staticmethod
-    @command
+    @command_static
     def remove(id_: BossBar | str):
         return f"bossbar remove {id_}"
     

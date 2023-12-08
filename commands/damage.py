@@ -1,7 +1,7 @@
-from .decorators import command
+from .decorators import command, command_static
 from structures.entity import Selector
 from structures.general import Coords
-from typing import Literal, overload
+from typing import Literal
 
 __all__ = ["damage"]
 
@@ -59,8 +59,7 @@ class damage:
             return f"damage {target} {amount}"
         return f"damage {target} {amount} {damage_type}"
     
-    @staticmethod
-    @command
+    @command_static
     def at(target: Selector, amount: int, damage_type: damage_types, location: Coords):
         return f"damage {target} {amount} {damage_type} at {" ".join(map(str, location))}"
     
@@ -68,8 +67,7 @@ class damage:
     # def by(target: Selector, amount: int, damage_type: str, by: Selector): ...
     # @overload
     # def by(target: Selector, amount: int, damage_type: str, by: Selector, from_: Selector): ...
-    @staticmethod
-    @command
+    @command_static
     def by(target: Selector, amount: int, damage_type: damage_types, by: Selector, from_: Selector = None):
         if from_ is None:
             return f"damage {target} {amount} {damage_type} by {by}"

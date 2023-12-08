@@ -3,7 +3,7 @@ from typing import Literal
 from structures.text import Text
 from structures.enums import SetdisplayVars
 from structures.entity import Selector
-from .decorators import command
+from .decorators import command, command_static
 
 __all__ = ["ScoreBoard", "scoreboard"]
 
@@ -64,56 +64,47 @@ class _ScoreboardObjectives:
         do_command()
         return ScoreBoard(objective)
 
-    @staticmethod
-    @command
+    @command_static
     def list():
         return _ScoreboardObjectives.PREFIX + "list"
 
     modifies = Literal["displayname", "rendertype"]
-    @staticmethod
-    @command
+    @command_static
     def modify(objective: ScoreBoard | str, parameter: modifies, value: Text | str):
         return _ScoreboardObjectives.PREFIX + f"modify {objective} {parameter} {value}"
 
-    @staticmethod
-    @command
+    @command_static
     def remove(objective: ScoreBoard | str):
         command = _ScoreboardObjectives.PREFIX + f"remove {objective}"
         if isinstance(objective, ScoreBoard):
             del objective
         return command
 
-    @staticmethod
-    @command
+    @command_static
     def setdisplay(display: SetdisplayVars | str, objective: ScoreBoard | str):
         return _ScoreboardObjectives.PREFIX + f"setdisplay {display} {objective}"
 
 class _ScoreboardPlayers:
     PREFIX = "scoreboard players "
 
-    @staticmethod
-    @command
+    @command_static
     def add(selector: Selector | str, objective: ScoreBoard | str, score: int):
         return _ScoreboardPlayers.PREFIX + f"add {selector} {objective} {score}"
     
-    @staticmethod
-    @command
+    @command_static
     def enable(targets: Selector, objective: ScoreBoard | str):
         return _ScoreboardPlayers.PREFIX + f"enabel {targets} {objective}"
     
-    @staticmethod
-    @command
+    @command_static
     def get(selector: Selector | str, objective: ScoreBoard | str):
         return _ScoreboardPlayers.PREFIX + f"get {selector} {objective}"
     
-    @staticmethod
-    @command
+    @command_static
     def list(selector: Selector | str):
         return _ScoreboardPlayers.PREFIX + f"list {selector}"
     
     operation = Literal["%=", "*=", "+=", "-=", "/=", "<", "=", ">", "><"]
-    @staticmethod
-    @command
+    @command_static
     def operation(target: Selector | str,
                   target_obj: ScoreBoard | str,
                   operation: operation,
@@ -121,20 +112,17 @@ class _ScoreboardPlayers:
                   source_obj: ScoreBoard | str):
         return _ScoreboardPlayers.PREFIX + f"operation {target} {target_obj} {operation} {source} {source_obj}"
     
-    @staticmethod
-    @command
+    @command_static
     def remove(selector: Selector | str, objective: ScoreBoard | str, score: int):
         return _ScoreboardPlayers.PREFIX + f"remove {selector} {objective} {score}"
     
-    @staticmethod
-    @command
+    @command_static
     def reset(selector: Selector | str, objective: ScoreBoard | str | None = None):
         if objective is None:
             return _ScoreboardPlayers.PREFIX + f"reset {selector}"
         return _ScoreboardPlayers.PREFIX + f"reset {selector} {objective}"
     
-    @staticmethod
-    @command
+    @command_static
     def set(selector: Selector | str, objective: ScoreBoard | str, score: int):
         return _ScoreboardPlayers.PREFIX + f"set {selector} {objective} {score}"
 
