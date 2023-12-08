@@ -18,8 +18,8 @@ datapack = DataPack()
 dp = NameSpace("dp")
 ```
 
-After that you can start defining your minecraft functions. To do this you need decorate
-standart python function with `@mc_function` decorator like so:
+After that you can start defining your minecraft functions. To do this you should decorate
+standard python function with `@mc_function` decorator like so:
 
 ```python
 @mc_function
