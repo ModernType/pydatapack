@@ -71,6 +71,8 @@ class EntityNBT(TagClass):
         self.armor_drop_chances = armor_drop_chances
         self.active_effects = active_effects
         self.attributes = attributes
+        for k, v in kwargs.items():
+            self.__setattr__(k, v)
 
 
 SORT_LITERAL = Literal["nearest", "furtherst", "random", "arbitrary"]
