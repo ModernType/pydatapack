@@ -1,6 +1,20 @@
 from enum import Enum
 from typing import Literal
 
+__all__ = [
+    "AttributeOperation",
+    "AttributeName",
+    "Slot",
+    "EnchantmentId",
+    "HideFlags",
+    "EffectId",
+    "EntityId",
+    "SelectorEnum",
+    "GamemodeName",
+    "SetdisplayVars",
+    "ItemId"
+]
+
 
 class MCEnum(Enum):
     def __str__(self) -> str:
