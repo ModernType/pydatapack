@@ -32,7 +32,7 @@ class Item(TagClass):
                  tags: List[str] = None,
                  attribute_modifiers: List[AttributeModifier] = None,
                  custom_model_data: int | None = None,
-                 display: dict = None,
+                 display: Display = None,
                  enchantments: List[Enchantment] = None,
                  count: int = 1,
                  damage: int = 0,
