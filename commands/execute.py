@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Literal, overload
-from .decorators import command_macro, _cancel_last
+from .decorators import command, _cancel_last
 from .scoreboard import ScoreBoard
 from structures.entity import Selector
 from structures.general import Coords
@@ -202,9 +202,9 @@ class execute:
         """Execute subcommand `store`."""
         return execute_store(self, arg)
 
-    @command_macro
+    @command
     def run(self, command):
-        """Chain of execute commands should end with this method. `command` parameter should be any called `@command_macro` decorated function.
+        """Chain of execute commands should end with this method. `command` parameter should be any called `@command` decorated function.
         
         ### Example:
         ```

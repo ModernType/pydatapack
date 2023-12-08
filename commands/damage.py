@@ -1,4 +1,4 @@
-from .decorators import command_macro
+from .decorators import command
 from structures.entity import Selector
 from structures.general import Coords
 from typing import Literal, overload
@@ -53,14 +53,14 @@ class damage:
                            "minecraft:wither_skull"
                            ]
 
-    @command_macro
+    @command
     def __init__(self, target: Selector, amount: int, damage_type: damage_types = None) -> None:
         if damage_type is None:
             return f"damage {target} {amount}"
         return f"damage {target} {amount} {damage_type}"
     
     @staticmethod
-    @command_macro
+    @command
     def at(target: Selector, amount: int, damage_type: damage_types, location: Coords):
         return f"damage {target} {amount} {damage_type} at {" ".join(map(str, location))}"
     
@@ -69,7 +69,7 @@ class damage:
     # @overload
     # def by(target: Selector, amount: int, damage_type: str, by: Selector, from_: Selector): ...
     @staticmethod
-    @command_macro
+    @command
     def by(target: Selector, amount: int, damage_type: damage_types, by: Selector, from_: Selector = None):
         if from_ is None:
             return f"damage {target} {amount} {damage_type} by {by}"

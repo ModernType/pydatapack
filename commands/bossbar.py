@@ -1,4 +1,4 @@
-from .decorators import command_macro
+from .decorators import command
 from structures.text import Text
 from typing import Literal
 from structures.entity import Selector
@@ -92,32 +92,32 @@ class bossbar_set:
         self.id_ = id_
     
     colors = Literal["blue", "green", "pink", "purple", "red", "white", "yellow"]
-    @command_macro
+    @command
     def color(self, color: colors):
         return f"bossbar set {self.id_} color {color}"
     
-    @command_macro
+    @command
     def max(self, max_: int):
         return f"bossbar set {self.id_} max {max_}"
     
-    @command_macro
+    @command
     def name(self, name: Text | str):
         return f"bossbar set {self.id_} name {name}"
     
-    @command_macro
+    @command
     def players(self, target: Selector):
         return f"bossbar set {self.id_} players {target}"
     
     styles = Literal["notched_6", "notched_10", "notched_12", "notched_20", "progress"]
-    @command_macro
+    @command
     def style(self, style: styles):
         return f"bossbar set {self.id_} style {style}"
     
-    @command_macro
+    @command
     def value(self, value: int):
         return f"bossbar set {self.id_} value {value}"
     
-    @command_macro
+    @command
     def visible(self, visible: bool):
         return f"bossbar set {self.id_} visible {str(visible).lower()}"
 
@@ -125,7 +125,7 @@ class bossbar_set:
 class bossbar:
     @staticmethod
     def add(id_: str, name: Text | str = None):
-        @command_macro
+        @command
         def do_command():
             if name is None:
                 return f"bossbar add {id_}"
@@ -135,17 +135,17 @@ class bossbar:
         return BossBar(id_, name)
     
     @staticmethod
-    @command_macro
+    @command
     def get(id_: BossBar | str, option: Literal["max", "players", "value", "visible"]):
         return f"bossbar get {id_} {option}"
     
     @staticmethod
-    @command_macro
+    @command
     def list():
         return f"bossbar list"
     
     @staticmethod
-    @command_macro
+    @command
     def remove(id_: BossBar | str):
         return f"bossbar remove {id_}"
     

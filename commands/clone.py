@@ -1,5 +1,5 @@
 from structures.general import Coords
-from .decorators import command_macro
+from .decorators import command
 from typing import Literal
 
 __all__ = ["clone"]
@@ -33,14 +33,14 @@ class clone:
         return out
 
     mode = Literal["force", "move", "normal"]
-    @command_macro
+    @command
     def replace(self, mode: mode = "normal"):
         return f"{self._gen_begining()} replace {mode}"
     
-    @command_macro
+    @command
     def masked(self, mode: mode = "normal"):
         return f"{self._gen_begining()} masked {mode}"
     
-    @command_macro
+    @command
     def filtered(self, filter: str, mode: mode = "normal"): #TODO: filter will be BlockId
         return f"{self._gen_begining()} filtered {filter} {mode}"
