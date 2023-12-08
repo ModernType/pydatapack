@@ -28,7 +28,7 @@ def command_macro(func: Callable[[], str]):
         func(*args, **kwargs)
         out = "\n".join(fun_buf)
         fun_buf.clear()
-        return out
+        fun_buf.append(out)
 
     wrapper.__name__ = func.__name__
     wrapper.__doc__ = func.__doc__
