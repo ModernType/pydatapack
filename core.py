@@ -10,23 +10,25 @@ class MCFunc:
     gen_func: Callable
     namespace: NameSpace
     name: str
+    path: str
     
-    def __init__(self, gen_func: Callable, name = None) -> None:
+    def __init__(self, gen_func: Callable, name: str = None, path: str = "") -> None:
         self.gen_func = gen_func
         self.namespace = []
         self.name = name if name is not None else gen_func.__name__
+        self.path = f"{path}/{name}.mcfunction" if path else f"{name}.mcfunction"
     
     @command
     def __call__(self) -> Any:
         if self.namespace:
-            return f"function {self.namespace}:{self.name}"
+            return f"function {self.namespace[0]}:{self.name}"
         raise RuntimeError("You can't call mc_function without namespace defined")
     
     def _add_namespace(self, namespace: NameSpace):
         self.namespace.append(namespace)
     
 
-def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_name: str = None, log: bool = False):
+def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_name: str = None, log: bool = False, path: str = ""):
     """One of key decorators which is used to define python function as minecraft function.
     
     ## Example
@@ -54,7 +56,7 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
     """
 
     def inner(func):
-        nonlocal func_name, namespace, log
+        nonlocal func_name, namespace, log, path
         
         def gen_func(*args, **kwargs):
             func(*args, **kwargs)
@@ -65,7 +67,7 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
         if log:
             print(f"{func_name if func_name else func.__name__}:\n\t{"\n\t".join(gen_func().splitlines())}")
         
-        mc_func = MCFunc(gen_func, func_name if func_name else func.__name__)
+        mc_func = MCFunc(gen_func, func_name if func_name else func.__name__, path)
         
         if namespace:
             namespace.add_function(mc_func)
