@@ -1,7 +1,10 @@
 from __future__ import annotations
 from typing import Any, Callable
 from commands.decorators import command
+from structures.text import Text
 import commands.decorators
+import os
+import json
 
 LATEST_FORMAT = 15
 
@@ -82,7 +85,7 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
 class NameSpace:
     def __init__(self, name: str) -> None:
         self.name = name
-        self._funcs = {}
+        self._funcs: list[MCFunc] = []
     
     def __str__(self):
         return self.name
@@ -94,17 +97,26 @@ class NameSpace:
         if not isinstance(func, MCFunc):
             raise TypeError("You can add only functions, decorated with @mc_function")
         func._add_namespace(self)
-        self._funcs[func.name] = func
+        self._funcs.append(func)
+    
+    def _gen_funcs(self, path: str):
+        os.makedirs(os.path.join(path, self.name, "functions"), exist_ok=True)
+        
+        for f in self._funcs:
+            with open(os.path.join(path, self.name, "functions", f.path), 'w') as file:
+                file.write(f.gen_func())
 
 
 class DataPack:
-    def __init__(self, *args: NameSpace, pack_format: int = LATEST_FORMAT, description: str = "") -> None:
-        self.spaces = {}
+    def __init__(self, *args: NameSpace, pack_name: str = "PyDatapack", datapack_path: str = "", pack_format: int = LATEST_FORMAT, description: str | Text = "") -> None:
+        self.spaces: list[NameSpace] = []
         for i in args:
-            self.spaces[i.name] = i
+            self.spaces.append(i)
         
         self.pack_format = pack_format
         self.description = description
+        self.pack_name = pack_name
+        self.datapack_path = datapack_path
     
     def add_namespace(self, name: str | NameSpace):
         if isinstance(name, str):
@@ -125,3 +137,23 @@ class DataPack:
     
     def __getitem__(self, index):
         return self.__getattribute__(index)
+    
+    def generate(self):
+        os.makedirs(os.path.join(self.datapack_path, self.pack_name, "data"))
+        
+        # Generating pack.mcmeta
+        with open(os.path.join(self.datapack_path, self.pack_name, "pack.mcmeta"), "w") as file:
+            json.dump(
+                {
+                    "pack": {
+                        "description": str(self.description),
+                        "pack_format": self.pack_format
+                    }
+                },
+                file
+            )
+        
+        # Generating all namespaces
+        for n in self.spaces:
+            n._gen_funcs(os.path.join(self.datapack_path, self.pack_name, "data"))
+        
