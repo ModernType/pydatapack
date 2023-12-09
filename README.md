@@ -10,10 +10,9 @@ All you need is to place at the begining of your script:
 from pydatapack import *
 ```
 
-Then you need to create an instance of your datapack and at least one namespace:
+Then you need to create at least one namespace:
 
 ```python
-datapack = DataPack()
 
 dp = NameSpace("dp")
 ```
@@ -38,6 +37,14 @@ Or define it directly in `@mc_function`:
 ```python
 @mc_function(namespace=dp)
 def foo(): ...
+```
+
+At the end of file define `DataPack` instance with all namespaces and call its `generate()` method:
+
+```python
+Datapack(
+    dp
+).generate()
 ```
 
 ## Using `execute` command
@@ -120,3 +127,27 @@ def test_slot_function():
     for i in range(11):
         test_slot(i)
 ```
+
+## How to add new commands?
+
+This framework currently in development. If you want to help and implement new commands, you can do it with ease. Every command is defined by this signature:
+
+```python
+@command
+def name_of_command(some_arg: Type):
+    return f"command {some_arg}"
+```
+
+> Note: `@command` is imported from `commands.decorators`
+
+### Example
+
+Here is an example of `give` command from framework`s source code:
+
+```python
+@command
+def give(item: Item, player: str = "@s"):
+    return f"give {player} {item.give_string()}"
+```
+
+For more advanced commands you can see [scoreboard implementation](https://github.com/ModernType/pydatapack/blob/master/commands/scoreboard.py) and use it as an example.
