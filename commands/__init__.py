@@ -9,32 +9,39 @@ from .decorators import *
 
 @command
 def give(item: Item, player: str = "@s"):
+    """Standard minecraft give command"""
     return f"give {player} {item.give_string()}"
 
 @command
 def say(text: str):
+    """Standard minecraft say command"""
     return f"say {text}"
 
 @command
 def clear(selector: Selector, item: Item, max_count: int = 1):
+    """Standard minecraft clear command"""
     return f"clear {selector} {item.give_string()[:-2]} {max_count}"
 
 @command
 def kill(target: Selector):
+    """Standard minecraft kill command"""
     return f"kill {target}"
 
 @command
 def difficulty(difficulty: Literal["peaceful", "easy", "normal", "hard"]):
+    """Standard minecraft difficulty command"""
     return f"difficulty {difficulty}"
 
 @command
 def gamemode(mode: GamemodeName | str, target: Selector = None):
+    """Standard minecraft gamemode command"""
     if target is None:
         target = Selector()
     return f"gamemode {mode} {target}"
 
 @command
 def enchant(targets: Selector, enchantment: EnchantmentId, level: int | None = None):
+    """Standard minecraft enchant command"""
     out = f"enchant {targets} {enchantment}"
     if level is not None:
         out += f" {level}"
@@ -42,6 +49,7 @@ def enchant(targets: Selector, enchantment: EnchantmentId, level: int | None = N
 
 @command
 def fillbiome(from_: Coords, to: Coords, biome: minecraft_biomes | str, replace: minecraft_biomes | str | None = None):
+    """Standard minecraft fillbiome command"""
     out = f"fillbiome {" ".join(map(str, from_))} {" ".join(map(str, to))} {biome}"
     if replace is not None:
         out += f" replace {replace}"

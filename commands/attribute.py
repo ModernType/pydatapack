@@ -40,6 +40,19 @@ class attribute_base:
 
 
 class attribute:
+    """
+    Minecraft `attribute` command. Needs initialization. Subcommands:
+    
+    - `attribute().get()`
+    - `attribute().base()` (has subcommands)
+    - `attribute().modifier()` (has subcommands)
+    
+    ### Example
+    
+    ```python
+    attribute(Selector(), AttributeName.max_health).base().set(30.0)
+    ```
+    """
     def __init__(self, target: Selector, attribute: AttributeName | str) -> None:
         self.target = target
         self.name = attribute
@@ -50,8 +63,8 @@ class attribute:
             return f"attribute {self.target} {self.name} get"
         return f"attribute {self.target} {self.name} get {scale}"
     
-    def base(self):
+    def base(self) -> attribute_base:
         return attribute_base(self)
     
-    def modifier(self):
+    def modifier(self) -> attribute_modifier:
         return attribute_modifier(self)

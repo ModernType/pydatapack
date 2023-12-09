@@ -5,6 +5,13 @@ __all__ = ["forceload"]
 
 
 class forceload:
+    """
+    Minecraft `forceload` command. Subcommands:
+    - `forceload.add()`
+    - `forceload.remove()`
+    - `forceload.query()`
+    """
+    
     @command_static
     def add(from_: Coords, to: Coords | None = None):
         out = f"forceload add {" ".join(map(str, from_))}"

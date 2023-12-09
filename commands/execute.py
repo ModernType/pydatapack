@@ -2,9 +2,10 @@ from __future__ import annotations
 from typing import Literal, overload
 from .decorators import command, _cancel_last
 from .scoreboard import ScoreBoard
+from .bossbar import BossBar
 from structures.entity import Selector
 from structures.general import Coords
-from structures.enums import EntityId
+from structures.enums import EntityId, minecraft_biomes
 
 __all__ = ["execute"]
 
@@ -34,7 +35,7 @@ class execute_if:
         else:
             self.prefix = "if"
 
-    def biome(self, pos: Coords, biome: str) -> execute: #TODO: biome enum
+    def biome(self, pos: Coords, biome: minecraft_biomes | str) -> execute:
         pos = " ".join(map(str, pos))
         self.ex._append(f"{self.prefix} biome {pos} {biome} ")
         return self.ex
@@ -110,7 +111,7 @@ class execute_store:
         self.ex._append(f"store {self.arg} block {target_pos} {path} {type_} {scale} ")
         return self.ex
     
-    def bossbar(self, id_: str, target: Literal["max", "value"] = "value") -> execute: #TODO: Add bossbar object here
+    def bossbar(self, id_: BossBar | str, target: Literal["max", "value"] = "value") -> execute:
         self.ex._append(f"store {self.arg} bossbar {id_} {target} ")
         return self.ex
 
@@ -127,6 +128,34 @@ class execute_store:
         return self.ex
 
 class execute:
+    """
+    Minecraft `execute` command. This command after initialisation can be infinitely chained
+    with arguments. Every execute commmand shoult end with `run()` method to actually be implemented
+    in datapack.
+    
+    > Note: if you forget to end chain with `run()`, command won't be generated and no error will be raised.
+    
+    ### Example
+    
+    ```python
+    @mc_function(namespace=dp, log=True)
+    def execute_showcase():
+        execute()\\
+            .as_(Selector(
+                SelectorEnum.all_players,
+                tag="special"
+                ))\\
+            .run(
+                give(Item(
+                    ItemId.diamond_sword,
+                    display=Display(
+                        name=Text("[b]Cool sword")
+                    )
+                ))
+            )
+    ```
+    """
+    
     def __init__(self) -> None:
         self.command = "execute "
     

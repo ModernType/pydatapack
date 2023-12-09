@@ -6,6 +6,13 @@ __all__ = ("xp", "experience")
 
 
 class xp:
+    """
+    Minecraft `xp` command. Subcommands:
+    - `xp.add()`
+    - `xp.set()`
+    - `xp.query()`
+    """
+    
     @command_static
     def add(target: Selector, amount: int, type_: Literal["levels", "points"]):
         return f"xp add {target} {amount} {type_}"

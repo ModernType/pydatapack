@@ -6,6 +6,15 @@ __all__ = ["clone"]
 
 
 class clone:
+    """
+    Minecraft `clone` command. Needs initialization. Subcommands:
+    
+    - `clone().from_()` and `clone().from_().to()` are optional begginings
+    - `clone().replace()`
+    - `clone().masked()`
+    - `clone().filtered()`
+    """
+    
     def __init__(self, begin: Coords, end: Coords, destination: Coords) -> None:
         self.begin = begin
         self.end = end

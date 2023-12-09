@@ -7,6 +7,11 @@ __all__ = ["BossBar", "bossbar"]
 
 
 class BossBar:
+    """
+    Object for `bossbar` result abstraction. You can call methods of this object to apply `bossbar modify`
+    to this bossbar specifically.
+    """
+    
     def __init__(self, id_: str, name: Text | str) -> None:
         self.id_ = id_
         self._name = name
@@ -123,8 +128,19 @@ class bossbar_set:
 
 
 class bossbar:
+    """
+    Minecraft `bossbar` command. Subcommands:
+    
+    - `bossbar.add()` (returns `BossBar` object instance)
+    - `bossbar.get()`
+    - `bossbar.list()`
+    - `bossbar.remove()`
+    - `bossbar.set()` (has subcommands)
+    
+    """
+    
     @staticmethod
-    def add(id_: str, name: Text | str = None):
+    def add(id_: str, name: Text | str = None) -> BossBar:
         @command
         def do_command():
             if name is None:
@@ -147,5 +163,5 @@ class bossbar:
         return f"bossbar remove {id_}"
     
     @staticmethod
-    def set(id_: BossBar | str):
+    def set(id_: BossBar | str) -> bossbar_set:
         return bossbar_set(str(id_))

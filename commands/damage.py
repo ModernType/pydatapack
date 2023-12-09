@@ -7,6 +7,12 @@ __all__ = ["damage"]
 
 
 class damage:
+    """
+    Minecraft `damage` command. Can be used only like `damage()` or with subcommands:
+    - `damage.at()`
+    - `damage.by()`
+    """
+    
     damage_types = Literal["minecraft:arrow",
                            "minecraft:bad_respawn_point",
                            "minecraft:cactus",

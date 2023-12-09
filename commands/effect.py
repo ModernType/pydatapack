@@ -1,4 +1,4 @@
-from .decorators import command, command_static
+from .decorators import command_static
 from structures.entity import Selector
 from structures.enums import EffectId
 from typing import Literal
@@ -7,6 +7,12 @@ __all__ = ["effect"]
 
 
 class effect:
+    """
+    Minecraft `effect` command. Subcommands:
+    - `effect.clear()`
+    - `effect.give()`
+    """
+    
     @command_static
     def clear(targets: Selector | None = None, effect: EffectId | None = None):
         out = "effect clear"
