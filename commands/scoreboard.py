@@ -128,6 +128,24 @@ class _ScoreboardPlayers:
 
 
 class scoreboard:
+    """
+    Minecraft `scoreboard` command. You can either type `scoreboard.objectives.method()` or
+    `scoreboard.players.method()`. `scoreboard.objectives.add()` returns `ScoreBoard` object which
+    can be passed to commands or you can use `ScoreBoard` methods to apply `scoreboard players` commands
+    directly to this scoreboard.
+    
+    ### Example
+    
+    ```python
+    @mc_function(log=True)
+    def test():
+        some: ScoreBoard = scoreboard.objectives.add("some", "dummy")
+        some.setdisplay(SetdisplayVars.sidebar)
+        scoreboard.players.add(Selector("@a", sort="nearest", limit=1), some, 5)
+        say("Scoreboard test finished")
+    ```
+    """
+    
     objectives = _ScoreboardObjectives
     players = _ScoreboardPlayers
 
