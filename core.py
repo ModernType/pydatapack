@@ -7,6 +7,10 @@ import os
 import json
 
 LATEST_FORMAT = 15
+func_tag = {
+    "load": [],
+    "tick": []
+}
 
 
 class MCFunc:
@@ -26,6 +30,14 @@ class MCFunc:
         if self.namespace:
             return f"function {self.namespace[0]}:{self.name}"
         raise RuntimeError("You can't call mc_function without namespace defined")
+    
+    def __str__(self) -> str:
+        if self.namespace:
+            return f"{self.namespace[0]}:{self.name}"
+        raise RuntimeError("No namespace specified for this function")
+    
+    def __repr__(self) -> str:
+        return self.__str__()
     
     def _add_namespace(self, namespace: NameSpace):
         self.namespace.append(namespace)
@@ -103,8 +115,25 @@ class NameSpace:
         os.makedirs(os.path.join(path, self.name, "functions"), exist_ok=True)
         
         for f in self._funcs:
+            global func_tag
+            if hasattr(f, "_load"):
+                func_tag["load"].append(f)
+            if hasattr(f, "_tick"):
+                func_tag["tick"].append(f)
             with open(os.path.join(path, self.name, "functions", f.path), 'w') as file:
                 file.write(f.gen_func())
+
+
+def tick(func: MCFunc):
+    """Decorator to define `@mc_function` to be tick function. Tick function is a function which works every game tick."""
+    func._tick = True
+    return func
+
+
+def load(func: MCFunc):
+    """Decorator to define `@mc_function` to be load function. Load function is a function which works on datapack load."""
+    func._load = True
+    return func
 
 
 class DataPack:
@@ -139,7 +168,7 @@ class DataPack:
         return self.__getattribute__(index)
     
     def generate(self):
-        os.makedirs(os.path.join(self.datapack_path, self.pack_name, "data"))
+        os.makedirs(os.path.join(self.datapack_path, self.pack_name, "data"), exist_ok=True)
         
         # Generating pack.mcmeta
         with open(os.path.join(self.datapack_path, self.pack_name, "pack.mcmeta"), "w") as file:
@@ -156,4 +185,25 @@ class DataPack:
         # Generating all namespaces
         for n in self.spaces:
             n._gen_funcs(os.path.join(self.datapack_path, self.pack_name, "data"))
+        
+        # Generating tag for tick and load functions
+        global func_tag
+        tag_path = os.path.join(self.datapack_path, self.pack_name, "data", "minecraft", "tags", "functions")
+        os.makedirs(tag_path, exist_ok=True)
+        
+        with open(os.path.join(tag_path, "load.json"), 'w') as file:
+            json.dump(
+                {
+                    "values": list(map(str, func_tag["load"]))
+                },
+                file
+            )
+        
+        with open(os.path.join(tag_path, "tick.json"), 'w') as file:
+            json.dump(
+                {
+                    "values": list(map(str, func_tag["tick"]))
+                },
+                file
+            ) 
         
