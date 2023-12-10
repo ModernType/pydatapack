@@ -3,6 +3,7 @@ from structures.item import Item
 from structures.entity import Selector
 from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes
 from structures.general import Coords
+from structures.text import Text
 from .decorators import *
 
 #! Simple commands implementations
@@ -54,6 +55,12 @@ def fillbiome(from_: Coords, to: Coords, biome: minecraft_biomes | str, replace:
     if replace is not None:
         out += f" replace {replace}"
     return out
+
+@command
+def tellraw(targets: Selector, message: Text):
+    return f"tellraw {targets} {"[\"\", " + str(message)[1:]}"
+
+
 
 #! Importing complex commands from their modules
 
