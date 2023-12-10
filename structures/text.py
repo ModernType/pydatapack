@@ -28,7 +28,7 @@ class TextPart:
             if v is None:
                 continue
             elif isinstance(v, bool):
-                additions.append(f'"{k}":"{str(v).lower()}"')
+                additions.append(f'"{k}":{str(v).lower()}')
             else:
                 additions.append(f'"{k}":"{v}"')
         
@@ -40,10 +40,15 @@ class TextPart:
 
 
 class Text:
-    def __init__(self, text: str, markup: bool = True) -> None:
+    def __init__(self, text: str, surround_with_qoutes: bool = False) -> None:
         self.raw = text
-        self.markup = markup
+        self.markup = True
+        self.quotes = surround_with_qoutes
         self.parts = []
+    
+    @classmethod
+    def with_quotes(cls, text: str):
+        return cls(text, True)
     
     def __str__(self) -> str:
         return self.__repr__()
@@ -51,7 +56,7 @@ class Text:
     def __repr__(self) -> str:
         if self.markup:
             if '\n' in self.raw:
-                texts = list(map(Text, self.raw.split("\n")))
+                texts = list(map(Text.with_quotes, self.raw.split("\n")))
                 return str(texts)
             cur = {"color": None, "bold": None, "italic": False, "underlined": None, "strikethrough": None, "obfuscated": None}
             buf = ""
@@ -146,9 +151,14 @@ class Text:
             if buf:
                 parts.append(TextPart(buf, **cur))
             
+            out = ""
             if len(parts) == 1:
-                return f"'{str(parts[0])}'"
-            return f"'{str(parts)}'"
+                out = f"{str(parts[0])}"
+            else:
+                out = f"{str(parts)}"
+            if self.quotes:
+                out = f"'{out}'"
+            return out
         else:
             return self.raw
 

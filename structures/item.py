@@ -21,7 +21,11 @@ class Display(TagClass):
                  name: Text | str = None, # Name should be defined only with formating at the start
                  lore: Text | str = None
                  ) -> None:
+        if isinstance(name, Text):
+            name.quotes = True
         self.name = name
+        if isinstance(lore, Text):
+            lore.quotes = True
         self.lore = lore
 
 

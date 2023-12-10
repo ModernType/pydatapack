@@ -21,6 +21,11 @@ def prettify(v: Any):
         for k, v in v.items():
             buf.append(f"{k}:{prettify(v)}")
         return "{" + ", ".join(buf) + "}"
+    elif isinstance(v, int):
+        if v < 256:
+            return f"{v}b"
+        else:
+            return str(v)
     else:
         return str(v)
 
