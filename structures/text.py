@@ -40,6 +40,22 @@ class TextPart:
 
 
 class Text:
+    """
+    Special instance which converts text with markup to json text.
+    To add markup you need to put `[]` with approprite tag before text with markup and put `[/]` with tg at the end.
+    To escape brackets you should put `&lb` for `[`, `&rb` for `]` and `&amp` for `&`. Markups:
+    
+    - `[b]` - bold;
+    - `[i]` - italic;
+    - `[u]` - underlined;
+    - `[o]` - obfuscated;
+    - `[color=]` - sets the color. After equal sign you shoul write color name or hex. Example:
+    `[color=red]Something important[/color]`
+    
+    > Note: if all your text to the end has markup, you don't need to close tag. For example we have sword with bold name, so we can
+    > have it like this: `[b]Cool Bold Sword Name`
+    """
+    
     def __init__(self, text: str, surround_with_qoutes: bool = False) -> None:
         self.raw = text
         self.markup = True
