@@ -73,3 +73,4 @@ from .clone import *
 from .damage import *
 from .effect import *
 from .forceload import *
+from .tag import *
