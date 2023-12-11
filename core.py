@@ -6,7 +6,7 @@ import commands.decorators
 import os
 import json
 
-LATEST_FORMAT = 15
+LATEST_FORMAT = 18
 func_tag = {
     "load": [],
     "tick": []
