@@ -92,6 +92,9 @@ class CoordinateType(MCEnum):
     absolute = ""
     relative = "~"
     sight = "^"
+    
+    def __str__(self) -> str:
+        return self.without_quotes()
 
 
 class Coord:
