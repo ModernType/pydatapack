@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import List, Literal, overload
 from structures.item import Item
 from structures.entity import Selector
 from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes
@@ -74,3 +74,4 @@ from .damage import *
 from .effect import *
 from .forceload import *
 from .tag import *
+from .tp import *
