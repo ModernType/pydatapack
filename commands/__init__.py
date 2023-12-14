@@ -60,6 +60,13 @@ def fillbiome(from_: Coords, to: Coords, biome: minecraft_biomes | str, replace:
 def tellraw(targets: Selector, message: Text):
     return f"tellraw {targets} {"[\"\", " + str(message)[1:]}"
 
+@command
+def weather(weather: Literal["clear", "rain", "thunder"], duration: int = None):
+    out = f"weather {weather}"
+    if duration is not None:
+        out += f" {duration}"
+    return out
+
 
 
 #! Importing complex commands from their modules
