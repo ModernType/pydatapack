@@ -61,9 +61,13 @@ class damage:
 
     @command
     def __init__(self, target: Selector, amount: int, damage_type: damage_types = None) -> None:
-        if damage_type is None:
-            return f"damage {target} {amount}"
-        return f"damage {target} {amount} {damage_type}"
+        @command
+        def do():
+            if damage_type is None:
+                return f"damage {target} {amount}"
+            return f"damage {target} {amount} {damage_type}"
+        
+        do()
     
     @command_static
     def at(target: Selector, amount: int, damage_type: damage_types, location: Coords):
