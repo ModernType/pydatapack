@@ -48,6 +48,10 @@ class ScoreBoard:
     @command
     def set(self, selector: Selector | str, score: int):
         return _ScoreboardPlayers.PREFIX + f"set {selector} {self} {score}"
+    
+    @command
+    def trigger(self):
+        return f"trigger {self}"
 
 
 class _ScoreboardObjectives:
