@@ -68,6 +68,21 @@ def weather(weather: Literal["clear", "rain", "thunder"], duration: int = None):
     return out
 
 
+#! Commands based on class
+
+class time:
+    @command_static
+    def add(amount: int):
+        return f"time add {amount}"
+    
+    @command_static
+    def query(mode: Literal["daytime", "gametime", "day"]):
+        return f"time query {mode}"
+    
+    @command_static
+    def set(time: Literal["day", "night", "noon", "midnight"] | int):
+        return f"time set {time}"
+
 
 #! Importing complex commands from their modules
 
