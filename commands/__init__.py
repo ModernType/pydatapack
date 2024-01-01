@@ -51,7 +51,7 @@ def enchant(targets: Selector, enchantment: EnchantmentId, level: int | None = N
 @command
 def fillbiome(from_: Coords, to: Coords, biome: minecraft_biomes | str, replace: minecraft_biomes | str | None = None):
     """Standard minecraft fillbiome command"""
-    out = f"fillbiome {" ".join(map(str, from_))} {" ".join(map(str, to))} {biome}"
+    out = f"fillbiome {from_} {to} {biome}"
     if replace is not None:
         out += f" replace {replace}"
     return out

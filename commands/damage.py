@@ -71,7 +71,7 @@ class damage:
     
     @command_static
     def at(target: Selector, amount: int, damage_type: damage_types, location: Coords):
-        return f"damage {target} {amount} {damage_type} at {" ".join(map(str, location))}"
+        return f"damage {target} {amount} {damage_type} at {location}"
     
     # @overload
     # def by(target: Selector, amount: int, damage_type: str, by: Selector): ...

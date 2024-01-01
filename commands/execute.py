@@ -16,7 +16,7 @@ class execute_if_data:
         self.prefix = prefix
 
     def block(self, pos: Coords, path: str) -> execute:
-        self.ex._append(f"{self.prefix} data block {" ".join(map(str, pos))} {path} ")
+        self.ex._append(f"{self.prefix} data block {pos} {path} ")
         return self.ex
 
     def entity(self, target: Selector, path: str) -> execute:
@@ -36,17 +36,15 @@ class execute_if:
             self.prefix = "if"
 
     def biome(self, pos: Coords, biome: minecraft_biomes | str) -> execute:
-        pos = " ".join(map(str, pos))
         self.ex._append(f"{self.prefix} biome {pos} {biome} ")
         return self.ex
     
     def block(self, pos: Coords, block: str) -> execute: #TODO: blocks enum
-        pos = " ".join(map(str, pos))
         self.ex._append(f"{self.prefix} block {pos} {block} ")
         return self.ex
 
     def blocks(self, start: Coords, end: Coords, destination: Coords, mode: Literal["all", "masked"] = "masked") -> execute:
-        self.ex._append(f"{self.prefix} blocks {" ".join(map(str, start))} {" ".join(map(str, end))} {" ".join(map(str, destination))} {mode}")
+        self.ex._append(f"{self.prefix} blocks {start} {end} {destination} {mode}")
         return self.ex
 
     def data(self) -> execute_if_data:
@@ -62,7 +60,6 @@ class execute_if:
         return self.ex
     
     def loaded(self, pos: Coords) -> execute:
-        pos = " ".join(map(str, pos))
         self.ex._append(f"{self.prefix} loaded {pos} ")
         return self.ex
     
@@ -181,7 +178,7 @@ class execute:
     
     def facing(self, target: Coords | Selector) -> execute:
         if isinstance(target, Coords):
-            self.command += f"facing {" ".join(map(str, target))} "
+            self.command += f"facing {target} "
         elif isinstance(target, Selector):
             self.command += f"facing entity {target} "
         else:
@@ -208,7 +205,7 @@ class execute:
     def positioned(self, coords: Coords) -> execute: ...
     def positioned(self, coords = None):
         if coords is not None:
-            self.command += f"positioned {" ".join(map(str, coords))} "
+            self.command += f"positioned {coords} "
             return self
         return execute_positioned(self)
 

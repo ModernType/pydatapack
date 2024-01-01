@@ -14,20 +14,20 @@ class forceload:
     
     @command_static
     def add(from_: Coords, to: Coords | None = None):
-        out = f"forceload add {" ".join(map(str, from_))}"
+        out = f"forceload add {from_}"
         if to is not None:
-            out += f" {" ".join(map(str, to))}"
+            out += f" {to}"
         return out
     
     @command_static
     def remove(from_: Coords, to: Coords | None = None):
-        out = f"forceload remove {" ".join(map(str, from_))}"
+        out = f"forceload remove {from_}"
         if to is not None:
-            out += f" {" ".join(map(str, to))}"
+            out += f" {to}"
         return out
     
     @command_static
     def query(pos: Coords | None):
         if pos:
-            return f"forceload query {" ".join(map(str, pos))}"
+            return f"forceload query {pos}"
         return "forceload query"

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .enums import MCEnum
 from .enums import *
-from typing import List, Tuple, Any
+from typing import List, overload, Any
 import random
 
 def to_camel_case(s: str):
@@ -126,4 +126,26 @@ class Coord:
             raise TypeError("You should pass Coord, float or str type")
 
 
-type Coords = Tuple[Coord, Coord, Coord]
+class Coords:
+    @overload
+    def __init__(self, full_coords: str): ...
+    @overload
+    def __init__(self, x: str, y: str, z: str): ...
+    @overload
+    def __init__(self, x: Coord, y: Coord, z: Coord): ...
+    
+    def __init__(self, *args):
+        if len(args) == 1:
+            args = args[0].split()
+        if len(args) == 3:
+            self.coords = []
+            for i in args:
+                self.coords.append(Coord.make_from(i))
+        else:
+            raise RuntimeError("")
+    
+    def __str__(self) -> str:
+        return f"{self.coords[0]} {self.coords[1]} {self.coords[2]}"
+    
+    def __repr__(self) -> str:
+        return self.__str__()

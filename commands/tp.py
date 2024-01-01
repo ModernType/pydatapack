@@ -16,10 +16,10 @@ class tp:
     def __init__(self, targets: Selector, destination: Selector | Coords, rotation: Tuple[float, float] = None) -> None:
         @command
         def do():
-            self.out = f"tp {targets} {destination if isinstance(destination, Selector) else " ".join(map(str, destination))}"
+            self.out = f"tp {targets} {destination if isinstance(destination, Selector) else destination}"
             if rotation is not None:
                 self.has_rotation = True
-                self.out += f" {" ".join(map(str, rotation))}"
+                self.out += f" {rotation}"
             return self.out
         
         do()
@@ -29,7 +29,7 @@ class tp:
         if hasattr(self, "has_rotation"):
             raise RuntimeError("This tp function already defined rotation during main command")
         _cancel_last()
-        self.out += f" facing {" ".join(map(str, location))}"
+        self.out += f" facing {location}"
         return self.out
     
     @command

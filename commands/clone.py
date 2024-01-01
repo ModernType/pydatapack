@@ -9,7 +9,7 @@ class clone:
     """
     Minecraft `clone` command. Needs initialization. Subcommands:
     
-    - `clone().from_()` and `clone().from_().to()` are optional begginings
+    - `clone().from_()` and `clone().from_().to()` are optional beginings
     - `clone().replace()`
     - `clone().masked()`
     - `clone().filtered()`
@@ -35,10 +35,10 @@ class clone:
         out = "clone "
         if self._from is not None:
             out += f"from {self._from}"
-        out += f"{" ".join(map(str, self.begin))} {" ".join(map(str, self.end))} "
+        out += f"{self.begin} {self.end} "
         if self._to is not None:
             out += f"to {self._to} "
-        out += f"{" ".join(map(str, self.destination))} "
+        out += f"{self.destination} "
         return out
 
     mode = Literal["force", "move", "normal"]
