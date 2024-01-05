@@ -42,9 +42,9 @@ class Item(TagClass):
                  enchantments: List[Enchantment] = None,
                  count: int = 1,
                  damage: int = None,
-                 can_destroy: List[ItemId | str] = None,
-                 can_place_on: List[ItemId | str] = None,
-                 hide_flags: int | None = None,
+                 can_destroy: List[ItemId | str] = None, # TODO: Change ItemId to BlockId
+                 can_place_on: List[ItemId | str] = None, # TODO: Change ItemId to BlockId
+                 hide_flags: int | HideFlags = None,
                  repair_cost: int = None,
                  **kwargs
                  ) -> None:
