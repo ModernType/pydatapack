@@ -34,13 +34,15 @@ class TagClass:
     quoted_key: bool = False # defines if key value of class should be in quotes
 
     do_camel_case: bool = True # defines if needed to convert class keys to camel case
+    
+    exceptions: set = set() # a set of keys which won't be affected with `do_camel_case``
 
     def __str__(self) -> str:
         additions = []
 
         for k, v in self.__dict__.items():
-            key = f'"{k}"' if self.quoted_key else k
-            if self.do_camel_case: key = to_camel_case(key)
+            key = f'"{k}"' if self.quoted_key and k not in self.exceptions else k
+            if self.do_camel_case and k not in self.exceptions: key = to_camel_case(key)
 
             if v is None:
                 continue
