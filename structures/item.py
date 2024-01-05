@@ -30,6 +30,8 @@ class Display(TagClass):
 
 
 class Item(TagClass):
+    exceptions = {"id", "display"}
+    
     def __init__(self,
                  id: ItemId | str,
                  unbreakable: bool = False,
@@ -59,7 +61,8 @@ class Item(TagClass):
         self.count = count
         self.hide_flags = hide_flags
         self.repair_cost = repair_cost
-        self.custom_props = kwargs
+        for k, v in kwargs.items():
+            self.__setattr__(k, v)
     
     def give_string(self): # variant special for 'give' command
         base = self.id.without_quotes() + "{" if isinstance(self.id, ItemId) else self.id + "{"
@@ -93,9 +96,6 @@ class Item(TagClass):
         if additions:
             base += ",".join(additions)
         return base + "} " + str(self.count)
-
-    def __str__(self) -> str: # We modify this method because some properties don't start with capital letter
-        return super().__str__().replace("Id", "id", 1).replace("Display", "display", 1)
 
     def __getitem__(self, key):
         return self.__getattribute__(key)
