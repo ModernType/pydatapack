@@ -13,6 +13,38 @@ func_tag = {
 }
 
 
+class NameSpace:
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self._funcs: list[MCFunc] = []
+    
+    def __str__(self):
+        return self.name
+    
+    def __repr__(self):
+        return f"NameSpace {self.name}: {self._funcs}"
+    
+    def add_function(self, func: MCFunc):
+        if not isinstance(func, MCFunc):
+            raise TypeError("You can add only functions, decorated with @mc_function")
+        func._add_namespace(self)
+        self._funcs.append(func)
+    
+    def _gen_funcs(self, path: str):
+        os.makedirs(os.path.join(path, self.name, "functions"), exist_ok=True)
+        
+        for f in self._funcs:
+            global func_tag
+            if hasattr(f, "_load"):
+                func_tag["load"].append(f)
+            if hasattr(f, "_tick"):
+                func_tag["tick"].append(f)
+            with open(os.path.join(path, self.name, "functions", f.path), 'w') as file:
+                file.write(f.gen_func())
+
+
+default_namespace = NameSpace("pydp")
+
 class MCFunc:
     gen_func: Callable
     namespace: NameSpace
@@ -86,42 +118,14 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
         
         if namespace:
             namespace.add_function(mc_func)
+        else:
+            default_namespace.add_function(mc_func)
         
         return mc_func
 
     if not func:
         return inner
     return inner(func)
-
-
-class NameSpace:
-    def __init__(self, name: str) -> None:
-        self.name = name
-        self._funcs: list[MCFunc] = []
-    
-    def __str__(self):
-        return self.name
-    
-    def __repr__(self):
-        return f"NameSpace {self.name}: {self._funcs}"
-    
-    def add_function(self, func: MCFunc):
-        if not isinstance(func, MCFunc):
-            raise TypeError("You can add only functions, decorated with @mc_function")
-        func._add_namespace(self)
-        self._funcs.append(func)
-    
-    def _gen_funcs(self, path: str):
-        os.makedirs(os.path.join(path, self.name, "functions"), exist_ok=True)
-        
-        for f in self._funcs:
-            global func_tag
-            if hasattr(f, "_load"):
-                func_tag["load"].append(f)
-            if hasattr(f, "_tick"):
-                func_tag["tick"].append(f)
-            with open(os.path.join(path, self.name, "functions", f.path), 'w') as file:
-                file.write(f.gen_func())
 
 
 def tick(func: MCFunc):
