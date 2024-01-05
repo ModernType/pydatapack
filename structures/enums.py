@@ -12,7 +12,8 @@ __all__ = [
     "SelectorEnum",
     "GamemodeName",
     "SetdisplayVars",
-    "ItemId"
+    "ItemId",
+    "BlockId"
 ]
 
 
