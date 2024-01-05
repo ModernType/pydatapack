@@ -34,18 +34,18 @@ class Item(TagClass):
     
     def __init__(self,
                  id: ItemId | str,
-                 unbreakable: bool = False,
+                 unbreakable: bool = None,
                  tags: List[str] = None,
                  attribute_modifiers: List[AttributeModifier] = None,
                  custom_model_data: int | None = None,
                  display: Display = None,
                  enchantments: List[Enchantment] = None,
                  count: int = 1,
-                 damage: int = 0,
+                 damage: int = None,
                  can_destroy: List[ItemId | str] = None,
                  can_place_on: List[ItemId | str] = None,
                  hide_flags: int | None = None,
-                 repair_cost: int = 0,
+                 repair_cost: int = None,
                  **kwargs
                  ) -> None:
         self.id = id
@@ -65,37 +65,12 @@ class Item(TagClass):
             self.__setattr__(k, v)
     
     def give_string(self): # variant special for 'give' command
-        base = self.id.without_quotes() + "{" if isinstance(self.id, ItemId) else self.id + "{"
-        additions = []
-        if self.tags:
-            additions.append(f"Tags:{self.tags}")
-        if self.unbreakable:
-            additions.append(f"Unbreakable:{int(self.unbreakable)}b")
-        if self.attribute_modifiers is not None:
-            additions.append(f"AttributeModifiers:{self.attribute_modifiers}")
-        if self.can_destroy is not None:
-            additions.append(f"CanDestroy:{self.can_destroy}")
-        if self.can_place_on is not None:
-            additions.append(f"CanPlaceOn:{self.can_place_on}")
-        if self.custom_model_data is not None:
-            additions.append(f"CustomModelData:{self.custom_model_data}")
-        if self.damage:
-            additions.append(f"Damage:{self.damage}")
-        if self.display is not None:
-            additions.append(f"display:{self.display}")
-        if self.enchantments is not None:
-            additions.append(f"Enchantments:{self.enchantments}")
-        if self.hide_flags is not None:
-            additions.append(f"HideFlags:{self.hide_flags}")
-        if self.repair_cost:
-            additions.append(f"RepairCost:{self.repair_cost}")
-
-        for k, v in self.custom_props.items():
-            additions.append(f"{k}:{v}")
-
-        if additions:
-            base += ",".join(additions)
-        return base + "} " + str(self.count)
+        self.ignore.add("id")
+        self.ignore.add("count")
+        out = f"{str(self.id).strip('"')}{self.__str__()}"
+        self.ignore.remove("id")
+        self.ignore.remove("count")
+        return out
 
     def __getitem__(self, key):
         return self.__getattribute__(key)
