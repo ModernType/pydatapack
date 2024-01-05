@@ -136,3 +136,4 @@ from .forceload import *
 from .tag import *
 from .tp import *
 from .trigger import *
+from .item import *
