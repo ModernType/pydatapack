@@ -4,8 +4,9 @@ from structures.entity import Selector
 from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes
 from structures.general import Coords
 from structures.text import Text
-from .decorators import _cancel_last
+# from .decorators import _cancel_last
 from .decorators import *
+from core import MCFunc
 
 #! Simple commands implementations
 
@@ -71,14 +72,13 @@ def weather(weather: Literal["clear", "rain", "thunder"], duration: int = None):
 @overload
 def return_(value: int): ...
 @overload
-def return_(run): ...
+def return_(run: MCFunc): ...
 
 @command
 def return_(val):
     if isinstance(val, int):
         return f"return {val}"
-    elif isinstance(val, str):
-        _cancel_last()
+    elif isinstance(val, MCFunc):
         return f"return run {val}"
     else:
      raise RuntimeError("Wrong return value. Should be int or command result")
