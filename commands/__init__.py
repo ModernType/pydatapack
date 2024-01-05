@@ -4,6 +4,7 @@ from structures.entity import Selector
 from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes
 from structures.general import Coords
 from structures.text import Text
+from structures.entity import EntityId, EntityNBT
 # from .decorators import _cancel_last
 from .decorators import *
 from core import MCFunc
@@ -82,6 +83,15 @@ def return_(val):
         return f"return run {val}"
     else:
      raise RuntimeError("Wrong return value. Should be int or command result")
+
+@command
+def summon(entity: EntityId, pos: Coords = None, nbt: EntityNBT = None):
+    out = f"summon {entity}"
+    if pos:
+        out += f" {pos}"
+    if nbt:
+        out += f" {nbt}"
+    return out
 
 
 #! Commands based on class
