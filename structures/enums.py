@@ -1662,3 +1662,6 @@ class ItemId(MCEnum):
     zombie_spawn_egg = "minecraft:zombie_spawn_egg"
     zombie_villager_spawn_egg = "minecraft:zombie_villager_spawn_egg"
     zombified_piglin_spawn_egg = "minecraft:zombified_piglin_spawn_egg"
+
+
+class BlockId(MCEnum): ...
