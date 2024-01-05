@@ -35,12 +35,17 @@ class TagClass:
 
     do_camel_case: bool = True # defines if needed to convert class keys to camel case
     
-    exceptions: set = set() # a set of keys which won't be affected with `do_camel_case``
+    exceptions: set = set() # a set of keys which won't be affected with `do_camel_case`
+    
+    ignore: set = set() # a set of service attributes to not include into command creation
 
     def __str__(self) -> str:
         additions = []
 
         for k, v in self.__dict__.items():
+            if k in self.ignore:
+                continue
+            
             key = f'"{k}"' if self.quoted_key and k not in self.exceptions else k
             if self.do_camel_case and k not in self.exceptions: key = to_camel_case(key)
 
