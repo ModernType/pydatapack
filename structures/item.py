@@ -67,7 +67,7 @@ class Item(TagClass):
     def give_string(self): # variant special for 'give' command
         self.ignore.add("id")
         self.ignore.add("count")
-        out = f"{str(self.id).strip('"')}{self.__str__()}"
+        out = f"{str(self.id).strip('"')}{self.__str__()} {self.count}"
         self.ignore.remove("id")
         self.ignore.remove("count")
         return out
