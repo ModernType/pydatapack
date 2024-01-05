@@ -110,6 +110,18 @@ class time:
         return f"time set {time}"
 
 
+class schedule:
+    @command_static
+    def function(function: MCFunc, time: int, mode: Literal["append", "replace"] = None):
+        out = f"schedule function {function} {time}"
+        if mode:
+            out += f" {mode}"
+        return out
+    
+    @command_static
+    def clear(function: MCFunc):
+        return f"schedule clear {function}"
+
 #! Importing complex commands from their modules
 
 from .scoreboard import *
