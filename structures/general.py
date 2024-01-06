@@ -105,7 +105,7 @@ class CoordinateType(MCEnum):
 
 
 class Coord:
-    def __init__(self, coord: float = 0, coord_type: CoordinateType = CoordinateType.relative) -> None:
+    def __init__(self, coord: float = 0, coord_type: CoordinateType = CoordinateType.absolute) -> None:
         self.coord = coord
         self.coord_type = coord_type
     
@@ -125,19 +125,19 @@ class Coord:
             match inp[0]:
                 case "~":
                     try:
-                        cls(float(inp[1:]), CoordinateType.relative)
+                        return cls(float(inp[1:]), CoordinateType.relative)
                     except ValueError:
-                        cls(0, CoordinateType.relative)
+                        return cls(0, CoordinateType.relative)
                 case "^":
                     try:
-                        cls(float(inp[1:]), CoordinateType.sight)
+                        return cls(float(inp[1:]), CoordinateType.sight)
                     except ValueError:
-                        cls(0, CoordinateType.sight)
+                        return cls(0, CoordinateType.sight)
                 case _:
                     try:
-                        cls(float(inp[1:]), CoordinateType.absolute)
+                        return cls(float(inp), CoordinateType.absolute)
                     except ValueError:
-                        cls(0, CoordinateType.absolute)
+                        return cls(0, CoordinateType.absolute)
         else:
             raise TypeError("You should pass Coord, float or str type")
 
