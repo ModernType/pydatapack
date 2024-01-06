@@ -138,6 +138,36 @@ class schedule:
     def clear(function: MCFunc):
         return f"schedule clear {function}"
 
+
+class title:
+    def __init__(self, targets: Selector):
+        self.targets = targets
+    
+    @command
+    def clear(self):
+        return f"title {self.targets} clear"
+    
+    @command
+    def reset(self):
+        return f"title {self.targets} reset"
+    
+    @command
+    def title(self, text: Text):
+        return f"title {self.targets} title {text}"
+    
+    @command
+    def subtitle(self, text: Text):
+        return f"title {self.targets} subtitle {text}"
+    
+    @command
+    def actionbar(self, text: Text):
+        return f"title {self.targets} actionbar {text}"
+    
+    @command
+    def times(self, fade_in: int, stay: int, fade_out: int):
+        return f"title {self.targets} times {fade_in} {stay} {fade_out}"
+
+
 #! Importing complex commands from their modules
 
 from .scoreboard import *
