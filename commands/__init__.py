@@ -138,3 +138,4 @@ from .tp import *
 from .trigger import *
 from .item import *
 from .sound import *
+from .particle import *
