@@ -1,7 +1,7 @@
 from typing import List, Literal, overload
 from structures.item import Item
 from structures.entity import Selector
-from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes
+from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes, BlockId
 from structures.general import Coords
 from structures.text import Text
 from structures.entity import EntityId, EntityNBT
@@ -92,6 +92,13 @@ def summon(entity: EntityId, pos: Coords = None, nbt: EntityNBT = None):
     if nbt:
         out += f" {nbt}"
     return out
+
+@command
+def setblock(pos: Coords, block: BlockId, mode: Literal["destroy", "keep", "replace"] = None):
+    out = f"setblock {pos} {block}"
+    if mode:
+        out += f" {mode}"
+    return mode
 
 
 #! Commands based on class
