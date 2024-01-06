@@ -100,6 +100,15 @@ def setblock(pos: Coords, block: BlockId, mode: Literal["destroy", "keep", "repl
         out += f" {mode}"
     return mode
 
+@command
+def spawnpoint(targets: Selector, pos: Coords = None, angle: float = None):
+    out = f"spawnpoint {targets}"
+    if pos:
+        out += f" {pos}"
+    if angle:
+        out += f" {angle}"
+    return out
+
 
 #! Commands based on class
 
