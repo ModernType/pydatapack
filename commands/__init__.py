@@ -168,6 +168,34 @@ class title:
         return f"title {self.targets} times {fade_in} {stay} {fade_out}"
 
 
+class random:
+    @command_static
+    def value(range: str, sequence: str = None): # TODO: replace range
+        out = f"random value {range}"
+        if sequence:
+            out += f" {sequence}"
+        return out
+    
+    @command_static
+    def roll(range: str, sequence: str = None): # TODO: replace range
+        out = f"random roll {range}"
+        if sequence:
+            out += f" {sequence}"
+        return out
+
+    @command_static
+    def reset(sequence: Literal["*"] | str, seed: int = None, include_world_seed: bool = None, include_sequence_id: bool = None):
+        out = f"random reset {sequence}"
+        if seed:
+            out += f" {seed}"
+        if include_world_seed:
+            out += f" {include_world_seed}"
+        if include_sequence_id:
+            out += f" {include_sequence_id}"
+        return out
+        
+
+
 #! Importing complex commands from their modules
 
 from .scoreboard import *
