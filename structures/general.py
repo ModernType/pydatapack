@@ -124,11 +124,20 @@ class Coord:
         elif isinstance(inp, str):
             match inp[0]:
                 case "~":
-                    cls(float(inp[1:]), CoordinateType.relative)
+                    try:
+                        cls(float(inp[1:]), CoordinateType.relative)
+                    except ValueError:
+                        cls(0, CoordinateType.relative)
                 case "^":
-                    cls(float(inp[1:]), CoordinateType.sight)
+                    try:
+                        cls(float(inp[1:]), CoordinateType.sight)
+                    except ValueError:
+                        cls(0, CoordinateType.sight)
                 case _:
-                    cls(float(inp), CoordinateType.absolute)
+                    try:
+                        cls(float(inp[1:]), CoordinateType.absolute)
+                    except ValueError:
+                        cls(0, CoordinateType.absolute)
         else:
             raise TypeError("You should pass Coord, float or str type")
 
