@@ -134,6 +134,12 @@ def spreadplayers(center: Tuple[Coord, Coord], spread_dist: float, max_range: fl
 def spreadplayers_under(center: Tuple[Coord, Coord], spread_dist: float, max_range: float, max_height: float, respect_teams: bool, targets: Selector):
     return f"spreadplayers {" ".join(center)} {spread_dist} {max_range} under {max_height} {str(respect_teams).lower()} {targets}"
 
+@command
+def fill(from_: Coords, to: Coords, block: BlockId, mode: Literal["destroy", "hollow", "keep", "outline", "replace"] = None):
+    out = f"fill {from_} {to} {block}"
+    if mode:
+        out += f" {mode}"
+    return out
 
 #! Commands based on class
 
