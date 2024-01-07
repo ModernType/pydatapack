@@ -1,8 +1,8 @@
-from typing import List, Literal, overload
+from typing import List, Literal, overload, Tuple
 from structures.item import Item
 from structures.entity import Selector
 from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes, BlockId
-from structures.general import Coords
+from structures.general import Coords, Coord
 from structures.text import Text
 from structures.entity import EntityId, EntityNBT
 # from .decorators import _cancel_last
@@ -125,6 +125,14 @@ def spectate(target: Selector = None, player: Selector = None):
         out += f" {player}"
     
     return out
+
+@command
+def spreadplayers(center: Tuple[Coord, Coord], spread_dist: float, max_range: float, respect_teams: bool, targets: Selector):
+    return f"spreadplayers {" ".join(center)} {spread_dist} {max_range} {str(respect_teams).lower()} {targets}"
+
+@command
+def spreadplayers_under(center: Tuple[Coord, Coord], spread_dist: float, max_range: float, max_height: float, respect_teams: bool, targets: Selector):
+    return f"spreadplayers {" ".join(center)} {spread_dist} {max_range} under {max_height} {str(respect_teams).lower()} {targets}"
 
 
 #! Commands based on class
