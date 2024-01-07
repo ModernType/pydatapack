@@ -197,6 +197,16 @@ class title:
     @command
     def times(self, fade_in: int, stay: int, fade_out: int):
         return f"title {self.targets} times {fade_in} {stay} {fade_out}"
+    
+
+class ride:
+    @command_static
+    def mount(targets: Selector, vehicle: Selector):
+        return f"ride {targets} mount {vehicle}"
+    
+    @command_static
+    def dismount(targets: Selector):
+        return f"ride {targets} dismount"
 
 
 class random:
