@@ -214,9 +214,9 @@ class random:
         if seed:
             out += f" {seed}"
         if include_world_seed:
-            out += f" {include_world_seed}"
+            out += f" {str(include_world_seed).lower()}"
         if include_sequence_id:
-            out += f" {include_sequence_id}"
+            out += f" {str(include_sequence_id).lower()}"
         return out
         
 
