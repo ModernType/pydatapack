@@ -110,6 +110,23 @@ def spawnpoint(targets: Selector, pos: Coords = None, angle: float = None):
     return out
 
 
+@overload
+def spectate(): ...
+@overload
+def spectate(target: Selector, player: Selector = None): ...
+
+@command
+def spectate(target: Selector = None, player: Selector = None):
+    if target is None:
+        return "spectate"
+    
+    out = f"spectate {target}"
+    if player:
+        out += f" {player}"
+    
+    return out
+
+
 #! Commands based on class
 
 class time:
