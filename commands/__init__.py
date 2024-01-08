@@ -575,3 +575,4 @@ from .sound import *
 from .particle import *
 from .team import *
 from .data import *
+from .advancement import *
