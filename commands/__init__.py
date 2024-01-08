@@ -526,6 +526,44 @@ class xp:
 experience = xp
 
 
+class place:
+    @command_static
+    def feature(feature: str, pos: Coords = None):
+        out = f"place feature {feature}"
+        if pos:
+            out += f" {pos}"
+        return out
+    
+    @command_static
+    def jigsaw(pool: str, target: str, max_depth: int, position: Coords = None):
+        out = f"place jigsaw {pool} {target} {max_depth}"
+        if position:
+            out == f" {position}"
+        return out
+    
+    @command_static
+    def structure(structure: str, pos: Coords = None):
+        out = f"place structure {structure}"
+        if pos:
+            out += f" {pos}"
+        return out
+    
+    @command_static
+    def template(template: str, pos: Coords = None, rotation: Literal["none", "clockwise_90", "counterclockwise_90", "180"] = None, mirror: Literal["none", "front_back", "left_right"] = None, integrity: float = None, seed: int = None):
+        out = f"place template {template}"
+        if pos:
+            out += f" {pos}"
+        if rotation:
+            out += f" {rotation}"
+        if mirror:
+            out += f" {mirror}"
+        if integrity:
+            out += f" {integrity}"
+        if seed:
+            out += f" {seed}"
+        return out
+
+
 #! Importing complex commands from their modules
 
 from .scoreboard import *
