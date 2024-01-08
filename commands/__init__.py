@@ -1,11 +1,6 @@
 from typing import List, Literal, overload, Tuple
-from structures.item import Item
-from structures.entity import Selector
-from structures.enums import GamemodeName, EnchantmentId, minecraft_biomes, BlockId
-from structures.general import Coords, Coord
-from structures.text import Text
-from structures.entity import EntityId, EntityNBT
-# from .decorators import _cancel_last
+from structures import Item, Selector, GamemodeName, EnchantmentId, minecraft_biomes, BlockId, Coords, Coord, Text, EntityId, EntityNBT, EffectId
+from .decorators import _cancel_last
 from .decorators import *
 from core import MCFunc
 
@@ -236,21 +231,307 @@ class random:
         return out
         
 
+class clone:
+    """
+    Minecraft `clone` command. Needs initialization. Subcommands:
+    
+    - `clone().from_()` and `clone().from_().to()` are optional beginings
+    - `clone().replace()`
+    - `clone().masked()`
+    - `clone().filtered()`
+    """
+    
+    def __init__(self, begin: Coords, end: Coords, destination: Coords) -> None:
+        self.begin = begin
+        self.end = end
+        self.destination = destination
+        self._from = None
+        self._to = None
+    
+    dimensions = Literal["minecraft:overworld", "minecraft:the_end", "minecraft:the_nether"]
+    def from_(self, dimension: dimensions):
+        self._from = dimension
+        return self
+    
+    def to(self, dimension: dimensions):
+        self._to = dimension
+        return self
+    
+    def _gen_begining(self):
+        out = "clone "
+        if self._from is not None:
+            out += f"from {self._from}"
+        out += f"{self.begin} {self.end} "
+        if self._to is not None:
+            out += f"to {self._to} "
+        out += f"{self.destination} "
+        return out
+
+    mode = Literal["force", "move", "normal"]
+    @command
+    def replace(self, mode: mode = "normal"):
+        return f"{self._gen_begining()} replace {mode}"
+    
+    @command
+    def masked(self, mode: mode = "normal"):
+        return f"{self._gen_begining()} masked {mode}"
+    
+    @command
+    def filtered(self, filter: BlockId, mode: mode = "normal"):
+        return f"{self._gen_begining()} filtered {filter} {mode}"
+
+
+class damage:
+    """
+    Minecraft `damage` command. Can be used only like `damage()` or with subcommands:
+    - `damage.at()`
+    - `damage.by()`
+    """
+    
+    damage_types = Literal["minecraft:arrow",
+                           "minecraft:bad_respawn_point",
+                           "minecraft:cactus",
+                           "minecraft:cramming",
+                           "minecraft:dragon_breath",
+                           "minecraft:drown",
+                           "minecraft:dry_out",
+                           "minecraft:explosion",
+                           "minecraft:fall",
+                           "minecraft:falling_anvil",
+                           "minecraft:falling_block",
+                           "minecraft:falling_stalactite",
+                           "minecraft:fireball",
+                           "minecraft:fireworks",
+                           "minecraft:fly_into_wall",
+                           "minecraft:freeze",
+                           "minecraft:generic",
+                           "minecraft:generic_kill",
+                           "minecraft:hot_floor",
+                           "minecraft:in_fire",
+                           "minecraft:in_wall",
+                           "minecraft:indirect_magic",
+                           "minecraft:lava",
+                           "minecraft:lightning_bolt",
+                           "minecraft:magic",
+                           "minecraft:mob_attack",
+                           "minecraft:mob_attack_no_aggro",
+                           "minecraft:mob_projectile",
+                           "minecraft:on_fire",
+                           "minecraft:out_of_world",
+                           "minecraft:outside_border",
+                           "minecraft:player_attack",
+                           "minecraft:player_explosion",
+                           "minecraft:sonic_boom",
+                           "minecraft:stalagmite",
+                           "minecraft:starve",
+                           "minecraft:sting",
+                           "minecraft:sweet_berry_bush",
+                           "minecraft:thorns",
+                           "minecraft:thrown",
+                           "minecraft:trident",
+                           "minecraft:unattributed_fireball",
+                           "minecraft:wither",
+                           "minecraft:wither_skull"
+                           ]
+
+    @command
+    def __init__(self, target: Selector, amount: int, damage_type: damage_types = None) -> None:
+        @command
+        def do():
+            if damage_type is None:
+                return f"damage {target} {amount}"
+            return f"damage {target} {amount} {damage_type}"
+        
+        do()
+    
+    @command_static
+    def at(target: Selector, amount: int, damage_type: damage_types, location: Coords):
+        return f"damage {target} {amount} {damage_type} at {location}"
+    
+    # @overload
+    # def by(target: Selector, amount: int, damage_type: str, by: Selector): ...
+    # @overload
+    # def by(target: Selector, amount: int, damage_type: str, by: Selector, from_: Selector): ...
+    @command_static
+    def by(target: Selector, amount: int, damage_type: damage_types, by: Selector, from_: Selector = None):
+        if from_ is None:
+            return f"damage {target} {amount} {damage_type} by {by}"
+        return f"damage {target} {amount} {damage_type} by {by} from {from_}"
+
+
+class effect:
+    """
+    Minecraft `effect` command. Subcommands:
+    - `effect.clear()`
+    - `effect.give()`
+    """
+    
+    @command_static
+    def clear(targets: Selector | None = None, effect: EffectId | None = None):
+        out = "effect clear"
+        if targets is not None:
+            out += f" {targets}"
+        if effect is not None:
+            out += f" {str(effect).strip('"')}"
+        return out
+    
+    @command_static
+    def give(targets: Selector, effect: EffectId, seconds: int | Literal["infinite"] | None = None, amplifier: int | None = None, hide_particles: bool | None = None):
+        out = f"effect give {targets} {str(effect).strip('"')}"
+        if seconds is not None:
+            out += f" {seconds}"
+        if amplifier is not None:
+            out += f" {amplifier}"
+        if hide_particles is not None:
+            out += f" {str(hide_particles).lower()}"
+        return out
+
+
+class forceload:
+    """
+    Minecraft `forceload` command. Subcommands:
+    - `forceload.add()`
+    - `forceload.remove()`
+    - `forceload.query()`
+    """
+    
+    @command_static
+    def add(from_: Coords, to: Coords | None = None):
+        out = f"forceload add {from_}"
+        if to is not None:
+            out += f" {to}"
+        return out
+    
+    @command_static
+    def remove(from_: Coords, to: Coords | None = None):
+        out = f"forceload remove {from_}"
+        if to is not None:
+            out += f" {to}"
+        return out
+    
+    @command_static
+    def query(pos: Coords | None):
+        if pos:
+            return f"forceload query {pos}"
+        return "forceload query"
+
+
+class tag:
+    """
+    Minecraft `tag` command. Subcommands:
+    
+    - tag.add()
+    - tag.list()
+    - tag.remove()
+    """
+    
+    @command_static
+    def add(targets: Selector, name: str):
+        return f"tag {targets} add {name}"
+    
+    @command_static
+    def list(targets: Selector):
+        return f"tag {targets} list"
+    
+    @command_static
+    def remove(targets: Selector, name: str):
+        return f"tag {targets} remove {name}"
+
+
+class tp:
+    @overload
+    def __init__(self, targets: Selector, destination: Selector): ...
+    @overload
+    def __init__(self, targets: Selector, location: Coords): ...
+    @overload
+    def __init__(self, targets: Selector, location: Coords, rotation: Tuple[float, float]): ...
+    
+    def __init__(self, targets: Selector, destination: Selector | Coords, rotation: Tuple[float, float] = None) -> None:
+        @command
+        def do():
+            self.out = f"tp {targets} {destination if isinstance(destination, Selector) else destination}"
+            if rotation is not None:
+                self.has_rotation = True
+                self.out += f" {rotation}"
+            return self.out
+        
+        do()
+
+    @command
+    def facing(self, location: Coords):
+        if hasattr(self, "has_rotation"):
+            raise RuntimeError("This tp function already defined rotation during main command")
+        _cancel_last()
+        self.out += f" facing {location}"
+        return self.out
+    
+    @command
+    def facing_entity(self, target: Selector, anchor: Literal["eyes", "foot"] = None):
+        _cancel_last()
+        self.out += f" facing entity {target}"
+        if anchor is not None:
+            self.out += f" {anchor}"
+        return self.out
+
+
+teleport = tp
+
+
+class trigger:
+    """
+    Minecraft `trigger` command. You can use it directly or also apply subcommands:
+    - trigger().add()
+    - trigger().set()
+    """
+    
+    def __init__(self, objective: ScoreBoard | str) -> None:
+        self.objective = objective
+        @command
+        def do():
+            return f"trigger {objective}"
+        
+        do()
+    
+    @command
+    def add(self, value: int):
+        _cancel_last()
+        return f"trigger {self.objective} add {value}"
+    
+    @command
+    def set(self, value: int):
+        _cancel_last()
+        return f"trigger {self.objective} set {value}"
+
+
+class xp:
+    """
+    Minecraft `xp` command. Subcommands:
+    - `xp.add()`
+    - `xp.set()`
+    - `xp.query()`
+    """
+    
+    @command_static
+    def add(target: Selector, amount: int, type_: Literal["levels", "points"]):
+        return f"xp add {target} {amount} {type_}"
+    
+    @command_static
+    def set(target: Selector, amount: int, type_: Literal["levels", "points"]):
+        return f"xp set {target} {amount} {type_}"
+    
+    @command_static
+    def query(target: Selector, type_: Literal["levels", "points"]):
+        return f"xp query {target} {type_}"
+
+experience = xp
+
 
 #! Importing complex commands from their modules
 
 from .scoreboard import *
 from .execute import *
 from .bossbar import *
-from .xp import *
 from .attribute import *
-from .clone import *
-from .damage import *
-from .effect import *
-from .forceload import *
-from .tag import *
-from .tp import *
-from .trigger import *
 from .item import *
 from .sound import *
 from .particle import *
