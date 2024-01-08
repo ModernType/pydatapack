@@ -165,3 +165,17 @@ class Coords:
     
     def __repr__(self) -> str:
         return self.__str__()
+
+
+class Storage:
+    def __init__(self, name: str) -> None:
+        self.name = name
+    
+    def __str__(self) -> str:
+        if ":" in self.name:
+            return self.name
+        else:
+            return f"minecraft:{self.name}"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
