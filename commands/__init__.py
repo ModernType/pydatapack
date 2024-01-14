@@ -564,6 +564,16 @@ class place:
         return out
 
 
+class recipe:
+    @command_static
+    def give(targets: Selector, recipe: str):
+        return f"recipe give {targets} {recipe}"
+    
+    @command_static
+    def take(targets: Selector, recipe: str):
+        return f"recipe take {targets} {recipe}"
+
+
 #! Importing complex commands from their modules
 
 from .scoreboard import *
