@@ -655,3 +655,4 @@ from .particle import *
 from .team import *
 from .data import *
 from .advancement import *
+from .loot import *
