@@ -136,6 +136,11 @@ def fill(from_: Coords, to: Coords, block: BlockId, mode: Literal["destroy", "ho
         out += f" {mode}"
     return out
 
+@command
+def raw_command(command: str):
+    """Adds string with raw minecraft command to function. Useful if it's easier to write full command by hand than using library or you reject to use functionality"""
+    return command
+
 #! Commands based on class
 
 class time:
