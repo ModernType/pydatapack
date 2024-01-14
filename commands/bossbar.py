@@ -4,6 +4,7 @@ from typing import Literal
 from structures.entity import Selector
 
 __all__ = ["BossBar", "bossbar"]
+do_command = True
 
 
 class BossBar:
@@ -13,7 +14,10 @@ class BossBar:
     """
     
     def __init__(self, id_: str, name: Text | str) -> None:
+        global do_command
         self.id_ = id_
+        if do_command:
+            bossbar.add(id_, name)
         self._name = name
         self._max = 100
         self._players = None
@@ -141,14 +145,19 @@ class bossbar:
     
     @staticmethod
     def add(id_: str, name: Text | str = None) -> BossBar:
+        global do_command
+        do_command = False
+
         @command
-        def do_command():
+        def do():
             if name is None:
                 return f"bossbar add {id_}"
             return f"bossbar add {id_} {name}"
         
-        do_command()
-        return BossBar(id_, name)
+        do()
+        out = BossBar(id_, name)
+        do_command = True
+        return out
     
     @command_static
     def get(id_: BossBar | str, option: Literal["max", "players", "value", "visible"]):

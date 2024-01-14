@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Any, Callable
-from commands.decorators import command
+from commands.decorators import command, _cancel_last
 from structures.text import Text
 import commands.decorators
 import os
@@ -11,7 +11,7 @@ func_tag = {
     "load": [],
     "tick": []
 }
-
+default_load = []
 
 class NameSpace:
     def __init__(self, name: str) -> None:
@@ -106,6 +106,8 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
         nonlocal func_name, namespace, log, path
         
         def gen_func(*args, **kwargs):
+            default_load.extend(commands.decorators.fun_buf)
+            commands.decorators.fun_buf.clear()
             func(*args, **kwargs)
             out = "\n".join(commands.decorators.fun_buf)
             commands.decorators.fun_buf.clear()
@@ -173,6 +175,8 @@ class DataPack:
         return self.__getattribute__(index)
     
     def generate(self):
+        global func_tag
+        
         os.makedirs(os.path.join(self.datapack_path, self.pack_name, "data"), exist_ok=True)
         
         # Generating pack.mcmeta
@@ -187,12 +191,20 @@ class DataPack:
                 file
             )
         
+        # Looking for default loads
+        if default_load:
+            load_func = MCFunc(
+                lambda : "\n".join(default_load),
+                "_pydp_load"
+            )
+            func_tag["load"].append(load_func)
+            default_namespace.add_function(load_func)
+
         # Generating all namespaces
         for n in self.spaces:
             n._gen_funcs(os.path.join(self.datapack_path, self.pack_name, "data"))
-        
+
         # Generating tag for tick and load functions
-        global func_tag
         tag_path = os.path.join(self.datapack_path, self.pack_name, "data", "minecraft", "tags", "functions")
         os.makedirs(tag_path, exist_ok=True)
         
@@ -211,4 +223,3 @@ class DataPack:
                 },
                 file
             ) 
-        

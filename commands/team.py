@@ -9,9 +9,9 @@ class Team:
     def __init__(self, name: str, display_name: Text = None) -> None:
         global do_command
         self.name = name
-        self.display_name = display_name
         if do_command:
             team.add(name, display_name)
+        self._display_name = display_name
         self._color = "reset"
         self._friendly_fire = True
         self._see_friendly_invisibles = True
@@ -20,6 +20,7 @@ class Team:
         self._collision_rule = "always"
         self._prefix = ""
         self._suffix = ""
+        
     
     def __str__(self) -> str:
         return self.name
@@ -28,8 +29,13 @@ class Team:
         return self.__str__()
     
     @property
+    def display_name(self):
+        return self._display_name
+
+    @display_name.setter
     def display_name(self, display_name: Text):
-        return f"team modify {self.team} displayName {display_name}"
+        self._display_name = display_name
+        team.modify(self.name).display_name(display_name)
     
     colors = Literal["blue", "green", "pink", "purple", "red", "white", "yellow", "aqua", "black", "dark_aqua", "dark_blue", "dark_gray", "dark_green", "dark_purple", "dark_red", "gold", "gray", "light_purple", "reset"]
     @property
@@ -61,39 +67,47 @@ class Team:
         return self._prefix
     
     @property
-    def suffix(self, text: Text):
+    def suffix(self):
         return self._suffix
     
     @color.setter
-    def color(self, val):
+    def color(self, val: colors):
+        self._color = val
         team.modify(self.name).color(val)
 
     @friendly_fire.setter
-    def friendly_fire(self, val):
-        team.modify(self.name).friendly_fire(val)
+    def friendly_fire(self, val: bool):
+        self._friendly_fire = val
+        team.modify(self.name).friendly_fire(str(val).lower)
 
     @see_friendly_invisibles.setter
-    def see_friendly_invisibles(self, val):
-        team.modify(self.name).see_friendly_invisibles(val)
+    def see_friendly_invisibles(self, val: bool):
+        self._see_friendly_invisibles = val
+        team.modify(self.name).see_friendly_invisibles(str(val).lower)
 
     @nametag_visibility.setter
-    def nametag_visibility(self, val):
+    def nametag_visibility(self, val: Literal["never", "hideForOtherTeams", "hideForOwnTeam", "always"]):
+        self._nametag_visibility = val
         team.modify(self.name).nametag_visibility(val)
 
     @death_message_visibility.setter
-    def death_message_visibility(self, val):
+    def death_message_visibility(self, val: Literal["never", "hideForOtherTeams", "hideForOwnTeam", "always"]):
+        self._death_message_visibility = val
         team.modify(self.name).death_message_visibility(val)
 
     @collision_rule.setter
-    def collision_rule(self, val):
+    def collision_rule(self, val: Literal["always", "never", "pushOtherTeams", "pushOwnTeam"]):
+        self._collision_rule = val
         team.modify(self.name).collision_rule(val)
 
     @prefix.setter
-    def prefix(self, val):
+    def prefix(self, val: Text):
+        self._prefix = val
         team.modify(self.name).prefix(val)
 
     @suffix.setter
-    def suffix(self, val):
+    def suffix(self, val: Text):
+        self._suffix = val
         team.modify(self.name).suffix(val)
 
     

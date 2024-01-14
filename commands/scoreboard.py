@@ -6,10 +6,17 @@ from structures.entity import Selector
 from .decorators import command, command_static
 
 __all__ = ["ScoreBoard", "scoreboard"]
+do_command = True
 
 class ScoreBoard:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, criteria: str = None) -> None:
+        global do_command
         self.name = name
+        if do_command:
+            if criteria:
+                scoreboard.objectives.add(name, criteria)
+            else:
+                scoreboard.objectives.add(name, "dummy")
     
     def __str__(self) -> str:
         return self.name
@@ -59,14 +66,19 @@ class _ScoreboardObjectives:
 
     @staticmethod
     def add(objective: str, criteria: str, display_name: Text | str = None) -> ScoreBoard:
+        global do_command
+        do_command = False
+
         @command
-        def do_command():
+        def do():
             if display_name is None:
                 return _ScoreboardObjectives.PREFIX + f"add {objective} {criteria}"
             return _ScoreboardObjectives.PREFIX + f"add {objective} {criteria} {display_name}"
 
-        do_command()
-        return ScoreBoard(objective)
+        do()
+        out = ScoreBoard(objective)
+        do_command = True
+        return out
 
     @command_static
     def list():
