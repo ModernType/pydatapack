@@ -13,7 +13,8 @@ __all__ = [
     "GamemodeName",
     "SetdisplayVars",
     "ItemId",
-    "BlockId"
+    "BlockId",
+    "minecraft_biomes"
 ]
 
 
