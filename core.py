@@ -27,7 +27,7 @@ class NameSpace:
     def add_function(self, func: MCFunc):
         if not isinstance(func, MCFunc):
             raise TypeError("You can add only functions, decorated with @mc_function")
-        func._add_namespace(self)
+        func.set_namespace(self)
         self._funcs.append(func)
     
     def _gen_funcs(self, path: str):
@@ -53,26 +53,26 @@ class MCFunc:
     
     def __init__(self, gen_func: Callable, name: str = None, path: str = "") -> None:
         self.gen_func = gen_func
-        self.namespace = []
+        self.namespace = None
         self.name = name if name is not None else gen_func.__name__
         self.path = f"{path}/{name}.mcfunction" if path else f"{name}.mcfunction"
     
     @command
     def __call__(self) -> Any:
         if self.namespace:
-            return f"function {self.namespace[0]}:{self.name}"
+            return f"function {self.namespace}:{self.name}"
         raise RuntimeError("You can't call mc_function without namespace defined")
     
     def __str__(self) -> str:
         if self.namespace:
-            return f"{self.namespace[0]}:{self.name}"
+            return f"{self.namespace}:{self.name}"
         raise RuntimeError("No namespace specified for this function")
     
     def __repr__(self) -> str:
         return self.__str__()
     
-    def _add_namespace(self, namespace: NameSpace):
-        self.namespace.append(namespace)
+    def set_namespace(self, namespace: NameSpace):
+        self.namespace = namespace
     
 
 def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_name: str = None, log: bool = False, path: str = ""):
@@ -146,6 +146,7 @@ class DataPack:
         for i in args:
             self.spaces.append(i)
         
+        self.spaces.append(default_namespace)
         self.pack_format = pack_format
         self.description = description
         self.pack_name = pack_name
