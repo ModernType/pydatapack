@@ -1,8 +1,9 @@
-from typing import List, Literal, overload, Tuple
+from typing import List, Literal, overload, Tuple, Any
 from structures import Item, Selector, GamemodeName, EnchantmentId, minecraft_biomes, BlockId, Coords, Coord, Text, EntityId, EntityNBT, EffectId
 from .decorators import _cancel_last
 from .decorators import *
 from core import MCFunc
+from .scoreboard import ScoreBoard
 
 #! Simple commands implementations
 
@@ -140,6 +141,69 @@ def fill(from_: Coords, to: Coords, block: BlockId, mode: Literal["destroy", "ho
 def raw_command(command: str):
     """Adds string with raw minecraft command to function. Useful if it's easier to write full command by hand than using library or you reject to use functionality"""
     return command
+
+
+gamerules = Literal[
+    "announceAdvancements",
+    "commandBlocksEnabled",
+    "commandBlockOutput",
+    "commandModificationBlockLimit",
+    "disableElytraMovementCheck	",
+    "disableRaids",
+    "doDaylightCycle",
+    "doEntityDrops",
+    "doFireTick",
+    "doInsomnia",
+    "doImmediateRespawn",
+    "doLimitedCrafting",
+    "doMobLoot",
+    "doMobSpawning",
+    "doPatrolSpawning",
+    "doTileDrops",
+    "doTraderSpawning",
+    "doVinesSpread",
+    "doWeatherCycle",
+    "doWardenSpawning",
+    "drowningDamage",
+    "enderPearlsVanishOnDeath",
+    "fallDamage",
+    "fireDamage",
+    "forgiveDeadPlayers",
+    "freezeDamage",
+    "globalSoundEvents",
+    "functionCommandLimit",
+    "keepInventory",
+    "lavaSourceConversion",
+    "logAdminCommands",
+    "maxCommandChainLength",
+    "maxEntityCramming",
+    "mobExplosionDropDecay",
+    "mobGriefing",
+    "naturalRegeneration",
+    "playersSleepingPercentage",
+    "randomTickSpeed",
+    "recipesUnlock",
+    "reducedDebugInfo",
+    "respawnBlocksExplode",
+    "sendCommandFeedbacktrue",
+    "showBorderEffect",
+    "showCoordinates",
+    "showDeathMessages",
+    "showTags",
+    "snowAccumulationHeight",
+    "spawnRadius",
+    "spectatorsGenerateChunks",
+    "tntExplodes",
+    "tntExplosionDropDecay",
+    "universalAnger",
+    "waterSourceConversion"
+]
+@command
+def gamerule(rule: gamerules, value: Any):
+    if isinstance(value, bool):
+        value = str(value).lower()
+    return f"gamerule {rule} {value}"
+
 
 #! Commands based on class
 
