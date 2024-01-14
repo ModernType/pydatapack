@@ -55,7 +55,7 @@ class attribute:
     """
     def __init__(self, target: Selector, attribute: AttributeName | str) -> None:
         self.target = target
-        self.name = attribute
+        self.name = attribute.without_quotes()
     
     @command
     def get(self, scale: float = None):
