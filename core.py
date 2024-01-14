@@ -105,9 +105,10 @@ def mc_function(func: Callable = None, /, *, namespace: NameSpace = None, func_n
     def inner(func):
         nonlocal func_name, namespace, log, path
         
+        default_load.extend(commands.decorators.fun_buf)
+        commands.decorators.fun_buf.clear()
+
         def gen_func(*args, **kwargs):
-            default_load.extend(commands.decorators.fun_buf)
-            commands.decorators.fun_buf.clear()
             func(*args, **kwargs)
             out = "\n".join(commands.decorators.fun_buf)
             commands.decorators.fun_buf.clear()
