@@ -17,6 +17,7 @@ class NameSpace:
     def __init__(self, name: str) -> None:
         self.name = name
         self._funcs: list[MCFunc] = []
+        self._paths: set = set()
     
     def __str__(self):
         return self.name
@@ -29,9 +30,14 @@ class NameSpace:
             raise TypeError("You can add only functions, decorated with @mc_function")
         func.set_namespace(self)
         self._funcs.append(func)
+        if func.path:
+            if func.path not in self._paths:
+                self._paths.add(func.path)
     
     def _gen_funcs(self, path: str):
         os.makedirs(os.path.join(path, self.name, "functions"), exist_ok=True)
+        for p in self._paths:
+            os.makedirs(os.path.join(path, self.name, "functions", '/'.join(p.split('/')[:-1])), exist_ok=True)
         
         for f in self._funcs:
             global func_tag
