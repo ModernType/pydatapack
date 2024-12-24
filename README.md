@@ -39,6 +39,14 @@ Or define it directly in `@mc_function`:
 def foo(): ...
 ```
 
+If this function should be used as *tick* or *load* function, add `@tick` or `@load` decorators respectively:
+```python
+@load
+@mc_function(namespace=dp)
+def main():
+    say("Datapack loaded")
+```
+
 At the end of file define `DataPack` instance with all namespaces and call its `generate()` method:
 
 ```python
@@ -127,6 +135,8 @@ def test_slot_function():
     for i in range(11):
         test_slot(i)
 ```
+
+> You can find other examples in [examples folder](https://github.com/ModernType/pydatapack/tree/master/examples)
 
 ## How to add new commands?
 
